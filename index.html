@@ -1,25 +1,462 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Suma Dinámica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LigandHub - Molecular Docking Preparation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group textarea {
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .progress.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result h3 {
+            color: #166534;
+            margin-bottom: 15px;
+        }
+
+        .download-btn {
+            background: #22c55e;
+            margin-top: 10px;
+        }
+
+        .error {
+            display: none;
+            background: #fef2f2;
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #991b1b;
+        }
+
+        .error.active {
+            display: block;
+        }
+
+        .info {
+            background: #e0e7ff;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            color: #3730a3;
+            margin-top: 15px;
+        }
+
+        .info code {
+            background: #c7d2fe;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Calculadora de Suma</h1>
-    
-    <input type="number" id="numero1" placeholder="Primer número">
-    <input type="number" id="numero2" placeholder="Segundo número">
-    <br><br>
-    <button onclick="sumar()">Sumar</button>
-    
-    <p id="resultado"></p>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 LigandHub</h1>
+            <p>Prepare your ligands for molecular docking</p>
+        </div>
+
+        <div class="card">
+            <h2>📥 Input Ligand</h2>
+            
+            <div class="input-group">
+                <label>Input method:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="inputType" value="file" checked> Upload file
+                    </label>
+                    <label>
+                        <input type="radio" name="inputType" value="smiles"> Enter SMILES
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-group" id="fileInputGroup">
+                <label>📄 Upload file (SDF, PDB, MOL2)</label>
+                <input type="file" id="ligandFile" accept=".sdf,.pdb,.mol2,.mol">
+            </div>
+
+            <div class="input-group" id="smilesInputGroup" style="display: none;">
+                <label>🔤 SMILES string</label>
+                <textarea id="smilesInput" placeholder="Example: CCO (ethanol) or CC(=O)O (acetic acid)"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>⚙️ Protonation pH (for Open Babel)</label>
+                <input type="number" id="ph" value="7.4" step="0.1" placeholder="7.4">
+            </div>
+
+            <div class="input-group">
+                <label>📦 Output format:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="outputFormat" value="pdbqt" checked> PDBQT (AutoDock)</label>
+                    <label><input type="radio" name="outputFormat" value="pdb"> PDB</label>
+                    <label><input type="radio" name="outputFormat" value="both"> Both</label>
+                </div>
+            </div>
+
+            <div class="info">
+                💡 <strong>Tip:</strong> LigandHub uses Open Babel to add hydrogens at specified pH and convert to PDBQT format for AutoDock/Vina docking.
+            </div>
+
+            <button class="btn" id="processBtn">🚀 Process Ligand</button>
+
+            <div class="progress" id="progress">
+                <div class="spinner"></div>
+                <p>Processing ligand... this may take a few seconds</p>
+            </div>
+
+            <div class="error" id="error">
+                <strong>❌ Error:</strong> <span id="errorMessage"></span>
+            </div>
+
+            <div class="result" id="result">
+                <h3>✅ Ligand processed successfully!</h3>
+                <div id="resultContent"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📖 About LigandHub</h2>
+            <p><strong>Supported inputs:</strong> SDF, PDB, MOL2, SMILES strings</p>
+            <p><strong>Output:</strong> PDBQT format ready for AutoDock, AutoDock Vina, or Smina</p>
+            <p><strong>Processing:</strong> Hydrogen addition at user-specified pH, charge assignment, torsion tree detection, and conversion to PDBQT</p>
+            <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                ⚠️ <strong>Note:</strong> Backend API not yet connected. This is the frontend interface.
+            </p>
+        </div>
+    </div>
 
     <script>
-        function sumar() {
-            let num1 = parseFloat(document.getElementById('numero1').value);
-            let num2 = parseFloat(document.getElementById('numero2').value);
-            let suma = num1 + num2;
-            document.getElementById('resultado').innerHTML = "Resultado: " + suma;
+        // DOM elements
+        const inputTypeRadios = document.querySelectorAll('input[name="inputType"]');
+        const fileInputGroup = document.getElementById('fileInputGroup');
+        const smilesInputGroup = document.getElementById('smilesInputGroup');
+        const ligandFile = document.getElementById('ligandFile');
+        const smilesInput = document.getElementById('smilesInput');
+        const phInput = document.getElementById('ph');
+        const processBtn = document.getElementById('processBtn');
+        const progress = document.getElementById('progress');
+        const errorDiv = document.getElementById('error');
+        const errorMessage = document.getElementById('errorMessage');
+        const resultDiv = document.getElementById('result');
+        const resultContent = document.getElementById('resultContent');
+
+        // Toggle between file and SMILES input
+        inputTypeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'file') {
+                    fileInputGroup.style.display = 'block';
+                    smilesInputGroup.style.display = 'none';
+                } else {
+                    fileInputGroup.style.display = 'none';
+                    smilesInputGroup.style.display = 'block';
+                }
+            });
+        });
+
+        // Process button handler
+        processBtn.addEventListener('click', async () => {
+            // Clear previous results/errors
+            errorDiv.classList.remove('active');
+            resultDiv.classList.remove('active');
+            
+            // Get input type
+            const inputType = document.querySelector('input[name="inputType"]:checked').value;
+            const ph = parseFloat(phInput.value) || 7.4;
+            const outputFormat = document.querySelector('input[name="outputFormat"]:checked').value;
+            
+            // Validate input
+            let ligandData = null;
+            let filename = 'ligand';
+            
+            if (inputType === 'file') {
+                if (!ligandFile.files || ligandFile.files.length === 0) {
+                    showError('Please select a file to upload');
+                    return;
+                }
+                ligandData = ligandFile.files[0];
+                filename = ligandData.name.split('.')[0];
+            } else {
+                const smiles = smilesInput.value.trim();
+                if (!smiles) {
+                    showError('Please enter a SMILES string');
+                    return;
+                }
+                // Create a file-like object from SMILES
+                const smilesContent = smiles;
+                ligandData = new Blob([smilesContent], { type: 'text/plain' });
+                filename = 'smiles_input';
+            }
+            
+            // Show progress
+            processBtn.disabled = true;
+            progress.classList.add('active');
+            
+            // Prepare form data
+            const formData = new FormData();
+            if (inputType === 'file') {
+                formData.append('file', ligandData);
+            } else {
+                formData.append('file', ligandData, 'smiles.smi');
+                formData.append('is_smiles', 'true');
+            }
+            formData.append('ph', ph);
+            formData.append('output_format', outputFormat);
+            formData.append('filename', filename);
+            
+            // TODO: Replace with actual backend URL when deployed
+            const BACKEND_URL = 'https://ligandhub-api.onrender.com'; // <-- UPDATE THIS
+            
+            try {
+                // For now, simulate API response (demo mode)
+                // Remove this block when backend is ready
+                const isDemoMode = true; // Set to false when backend is deployed
+                
+                if (isDemoMode) {
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    showDemoResult(filename, outputFormat);
+                } else {
+                    // Real API call
+                    const response = await fetch(`${BACKEND_URL}/process_ligand`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.detail || 'Processing failed');
+                    }
+                    
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${filename}_prepared.${outputFormat === 'both' ? 'zip' : outputFormat}`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    
+                    showResult(`Your ligand has been processed successfully! The file has been downloaded.`);
+                }
+                
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                processBtn.disabled = false;
+                progress.classList.remove('active');
+            }
+        });
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorDiv.classList.add('active');
+        }
+        
+        function showResult(message) {
+            resultContent.innerHTML = `<p>${message}</p>`;
+            resultDiv.classList.add('active');
+        }
+        
+        function showDemoResult(filename, outputFormat) {
+            let message = `
+                <p>✅ <strong>Demo mode</strong> - Backend not yet connected.</p>
+                <p>Your ligand "${filename}" would be processed with:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>pH: ${phInput.value}</li>
+                    <li>Output format: ${outputFormat.toUpperCase()}</li>
+                </ul>
+                <p>📌 <strong>Next step:</strong> Deploy the backend API to Render and update the BACKEND_URL in the code.</p>
+                <button class="btn download-btn" id="demoDownloadBtn" style="width: auto; padding: 10px 20px; margin-top: 15px;">📥 Download Demo PDBQT</button>
+            `;
+            resultContent.innerHTML = message;
+            resultDiv.classList.add('active');
+            
+            const demoBtn = document.getElementById('demoDownloadBtn');
+            if (demoBtn) {
+                demoBtn.addEventListener('click', () => {
+                    // Create a dummy PDBQT file for demo
+                    const dummyPdbqt = `REMARK  Dummy PDBQT file for ${filename}
+REMARK  Generated by LigandHub Demo
+REMARK  pH = ${phInput.value}
+REMARK  Format = ${outputFormat.toUpperCase()}
+ATOM      1  C   LIG A   1       0.000   0.000   0.000  0.00  0.00
+ATOM      2  H   LIG A   1       1.089   0.000   0.000  0.00  0.00
+ATOM      3  H   LIG A   1      -0.363   0.924   0.424  0.00  0.00
+ATOM      4  H   LIG A   1      -0.363  -0.469   0.884  0.00  0.00
+ATOM      5  H   LIG A   1      -0.363  -0.455  -0.928  0.00  0.00
+TER
+END`;
+                    const blob = new Blob([dummyPdbqt], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${filename}_demo.pdbqt`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+            }
         }
     </script>
 </body>
