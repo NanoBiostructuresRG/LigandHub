@@ -200,6 +200,10 @@
             font-size: 14px;
         }
 
+        #backendStatus {
+            margin-bottom: 18px;
+        }
+        
         .status-ok {
             background: #ecfdf5;
             color: #166534;
@@ -243,7 +247,7 @@
     <div class="container">
         <div class="header">
             <h1>🧬 LigandHub</h1>
-            <p>Prepare your ligands for molecular docking with Meeko</p>
+            <p>Web interface for ligand preparation and <code>PDBQT</code> generation for molecular docking</p>
         </div>
 
         <div class="card">
@@ -283,9 +287,8 @@
                 </div>
             </div>
 
-
             <div class="info">
-                <strong>Tip:</strong> SDF files and SMILES strings for many ligands are available from 
+                <strong>Tip:</strong> SDF files and SMILES strings for many ligands can be obtained from 
                 widely used chemical databases such as <strong>PubChem</strong> and <strong>DrugBank</strong>.
             </div>
 
@@ -315,22 +318,22 @@
         <div class="card">
             <h2> About</h2>
             <p>
-                LigandHub is a browser-based interface designed to support ligand preparation for molecular 
+                <strong>LigandHub</strong> is a browser-based interface designed to support ligand preparation for molecular 
                 docking studies. The platform accepts molecular structures in common input formats, including 
-                SDF, PDB, MOL2, and SMILES, and generates <code>PDBQT</code> files. Depending on the input 
-                structure, the preparation process may include hydrogen addition and
-                3D coordinate generation before export.
+                <code>SDF</code>, <code>PDB</code>, <code>MOL2</code>, and <code>SMILES</code>, and generates 
+                <code>PDBQT</code> files. Depending on the input structure, the preparation process may include 
+                hydrogen addition and 3D coordinate generation before export.
             </p>
-            <p style="margin-top: 10px; font-size: 14px; color: #166534;">
+            <p style="margin-top: 10px; font-size: 13px; color: #166534;">
                 <strong>Note:</strong> All processing is performed on a backend server using the  
-                <strong>Meeko</strong> toolkit (LGPLv2.1) and RDKit.
+                <strong>Meeko</strong> toolkit (LGPLv2.1) and RDKit (2025.9.2).
             </p>
         </div>
 
         <div class="footer">
             <p>
                 © 2026 LigandHub · Developed by
-                <a href="https://github.com/NanoBiostructuresRG" target="_blank" rel="noopener noreferrer">
+                <a href="https://nanobiostructuresrg.github.io/" target="_blank" rel="noopener noreferrer">
                     Nano]°[Biostructures RG
                 </a>
                 · Tecnológico de Monterrey
