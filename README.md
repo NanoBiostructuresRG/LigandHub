@@ -9,18 +9,6 @@
 ---
 
 ## Description
-**LigandHub** is a browser-based frontend for preparing small-molecule ligands for molecular docking. It provides a simple interface to submit **SMILES strings** or upload structure files, sends them to the backend API, and downloads a ready-to-use **PDBQT** file for docking workflows.
-
-- collecting user input
-- validating basic input presence
-- building the `FormData` request
-- calling the backend API
-- displaying status and error messages
-- downloading the generated ligand file
-
-
-
-## Description
 
 **LigandHub** is a browser-based frontend for preparing small-molecule ligands for molecular docking. It provides a simple interface to submit **SMILES strings** or upload structure files, sends them to the backend API, and downloads a ready-to-use **PDBQT** file for docking workflows. 
 
@@ -121,26 +109,12 @@ Possible frontend extensions include:
 - improved user guidance for supported formats
 - mobile UI refinements
 
----
-
-## Software Licenses
-
-**LigandHub** integrates open-source tools for cheminformatics and molecular docking workflows.  
-The application does not claim ownership over these third-party tools, and each component remains governed by its respective license. Below is a summary of the software components used in the backend preparation service, along with their functions and licenses:
-
-| Software | Function in the workflow | License |
-|----------|---------------------------|---------|
-| **RDKit** | Cheminformatics operations, molecular structure handling, reading SMILES/SDF files | **BSD 3-Clause License** |
-| **Meeko** | Ligand and receptor preparation for docking, generation of PDBQT files | **GNU LGPL v2.1 or later** |
-| **AutoDock Vina** | Molecular docking engine | **Apache License 2.0** |
-| **Open Babel** | Molecular file conversion and alternative structure preparation | **GNU GPL v2** |
 
 
 ---
 
 **Authors:** 
 [Flavio F. Contreras-Torres](https://orcid.org/0000-0003-2375-131X). Tecnológico de Monterrey.
-
 
 ---
 
@@ -162,9 +136,7 @@ LigandHub also uses or interfaces with third-party open-source software. See the
 
 ### Attribution
 
-If you use, adapt, or redistribute this material, please provide appropriate credit to the original author, [FFCT](https://orcid.org/0000-0003-2375-131X), and cite or link to the LigandHub repository:
-
-[https://github.com/NanoBiostructuresRG/LigandHub](https://github.com/NanoBiostructuresRG/LigandHub)
+If you use, adapt, or redistribute this material, please provide appropriate credit to the original author, [FFCT](https://orcid.org/0000-0003-2375-131X), and cite or link to the LigandHub repository [https://github.com/NanoBiostructuresRG/LigandHub](https://github.com/NanoBiostructuresRG/LigandHub).
 
 
 
