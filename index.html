@@ -386,7 +386,7 @@
                     showDemoResult(filename, outputFormat);
                 } else {
                     // Real API call
-                    const response = await fetch(`${BACKEND_URL}/process_ligand`, {
+                    const response = await fetch(`${BACKEND_URL}/prepare_ligand`, {
                         method: 'POST',
                         body: formData
                     });
