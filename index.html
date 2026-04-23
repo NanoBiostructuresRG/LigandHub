@@ -18,6 +18,15 @@
             padding: 20px;
         }
 
+        
+        .floating-header:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        
+
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -244,6 +253,17 @@
     </style>
 </head>
 <body>
+    <a href="#" style="text-decoration: none;">
+        <div class="floating-header" style="position: fixed; top: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 8px 20px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;">
+            <div style="font-size: 28px;">🧬</div>
+            <div>
+                <div style="font-size: 16px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">LigandHub</div>
+                <div style="font-size: 9px; color: #666; letter-spacing: 0.5px;">DOCKING PREP TOOL</div>
+            </div>
+        </div>
+    </a>
+
+
     <div class="container">
         <div class="header">
             <h1>🧬 LigandHub</h1>
