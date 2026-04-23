@@ -247,7 +247,7 @@
         </div>
 
         <div class="card">
-            <h2>📥 Input Ligand</h2>
+            <h2>Ligand Molecule</h2>
 
             <div class="input-group">
                 <label>Input method:</label>
@@ -264,17 +264,17 @@
             </div>
 
             <div class="input-group" id="fileInputGroup">
-                <label>📄 Upload file (SDF, PDB, MOL2, SMI, SMILES, TXT)</label>
+                <label> Upload file (SDF, PDB, MOL2, SMI, SMILES, TXT)</label>
                 <input type="file" id="ligandFile" accept=".sdf,.pdb,.mol2,.smi,.smiles,.txt">
             </div>
 
             <div class="input-group" id="smilesInputGroup" style="display: none;">
-                <label>🔤 SMILES string</label>
+                <label> SMILES string</label>
                 <textarea id="smilesInput" placeholder="Example: CCO"></textarea>
             </div>
 
             <div class="input-group">
-                <label>📦 Output format</label>
+                <label> Output format</label>
                 <div class="radio-group">
                     <label>
                         <input type="radio" name="outputFormat" value="pdbqt" checked>
@@ -283,16 +283,19 @@
                 </div>
             </div>
 
+
             <div class="info">
-                💡 <strong>Tip:</strong> LigandHub uses <strong>Meeko</strong> to prepare ligands and generate
-                <code>PDBQT</code> files for AutoDock Vina workflows.
+                <strong>Tip:</strong> SDF files and SMILES strings for many ligands are available from 
+                widely used chemical databases such as <strong>PubChem</strong> and <strong>DrugBank</strong>.
             </div>
 
             <div id="backendStatus" class="status-box status-bad">
                 Checking backend status...
             </div>
 
+
             <button class="btn" id="processBtn">🚀 Prepare Ligand</button>
+
 
             <div class="progress" id="progress">
                 <div class="spinner"></div>
@@ -310,12 +313,17 @@
         </div>
 
         <div class="card">
-            <h2>📖 About LigandHub</h2>
-            <p><strong>Supported inputs:</strong> SDF, PDB, MOL2, SMILES text files, and direct SMILES strings</p>
-            <p><strong>Output:</strong> PDBQT format ready for AutoDock, AutoDock Vina, or Smina</p>
-            <p><strong>Processing:</strong> hydrogen completion, 3D generation when needed, ligand preparation with Meeko, and PDBQT export</p>
+            <h2> About</h2>
+            <p>
+                LigandHub is a browser-based interface designed to support ligand preparation for molecular 
+                docking studies. The platform accepts molecular structures in common input formats, including 
+                SDF, PDB, MOL2, and SMILES, and generates <code>PDBQT</code> files. Depending on the input 
+                structure, the preparation process may include hydrogen addition and
+                3D coordinate generation before export.
+            </p>
             <p style="margin-top: 10px; font-size: 14px; color: #166534;">
-                ✅ <strong>Note:</strong> Backend API connected through Render.
+                <strong>Note:</strong> All processing is performed on a backend server using the  
+                <strong>Meeko</strong> toolkit (LGPLv2.1) and RDKit.
             </p>
         </div>
 
