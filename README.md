@@ -113,12 +113,13 @@ Possible frontend extensions include:
 
 ---
 
-**Authors:** 
+## Authors
+
 [Flavio F. Contreras-Torres](https://orcid.org/0000-0003-2375-131X). Tecnológico de Monterrey.
 
 ---
 
-### License
+## License
 
 The educational content and tutorial materials in this repository are licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
@@ -137,7 +138,6 @@ LigandHub also uses or interfaces with third-party open-source software. See the
 ### Attribution
 
 If you use, adapt, or redistribute this material, please provide appropriate credit to the original author, [FFCT](https://orcid.org/0000-0003-2375-131X), and cite or link to the LigandHub repository [https://github.com/NanoBiostructuresRG/LigandHub](https://github.com/NanoBiostructuresRG/LigandHub).
-
 
 
 ### Contact
