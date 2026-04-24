@@ -1572,7 +1572,9 @@
 
             if (!response.ok) {
                 const message = await getErrorMessage(response);
-                throw new Error(message);
+                const error = new Error(message);
+                error.status = response.status;
+                throw error;
             }
 
             return response.json();
@@ -1588,7 +1590,7 @@
             validationResult.textContent = "";
         }
 
-        async function handleValidateSmiles() {
+        async function handleValidateSmiles({ allowUnavailable = false } = {}) {
             const smiles = smilesInput.value.trim();
             if (!smiles) {
                 showValidationMessage("Please enter a SMILES string.", "error");
@@ -1619,7 +1621,16 @@
 
                 return data;
             } catch (err) {
-                showValidationMessage(`Validation server error: ${err.message || "Unexpected error"}`, "error");
+                const endpointMissing = err.status === 404;
+                const message = endpointMissing
+                    ? "The validation endpoint is not available in the deployed backend yet."
+                    : `Validation server error: ${err.message || "Unexpected error"}`;
+
+                showValidationMessage(message, endpointMissing || allowUnavailable ? "warning" : "error");
+                if (endpointMissing || allowUnavailable) {
+                    return { valid: null, validationUnavailable: true };
+                }
+
                 return null;
             } finally {
                 validateSmilesBtn.disabled = false;
@@ -1627,7 +1638,9 @@
             }
         }
 
-        validateSmilesBtn.addEventListener("click", handleValidateSmiles);
+        validateSmilesBtn.addEventListener("click", () => {
+            handleValidateSmiles();
+        });
 
         clearSmilesBtn.addEventListener("click", () => {
             smilesInput.value = "";
@@ -1665,8 +1678,8 @@
                     return;
                 }
 
-                const validation = await handleValidateSmiles();
-                if (!validation || !validation.valid) {
+                const validation = await handleValidateSmiles({ allowUnavailable: true });
+                if (validation && validation.valid === false) {
                     showError("Please fix the SMILES validation errors before ligand preparation.");
                     return;
                 }
