@@ -226,6 +226,58 @@
             margin-bottom: 20px;
         }
 
+        .workflow-switcher {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .workflow-tab {
+            border: 2px solid #dbe4ff;
+            background: #f8faff;
+            color: #334155;
+            border-radius: 12px;
+            padding: 14px 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .workflow-tab:hover {
+            transform: translateY(-1px);
+            border-color: #a5b4fc;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .workflow-tab.active {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 100%);
+            border-color: #667eea;
+            box-shadow: 0 14px 28px rgba(102, 126, 234, 0.14);
+        }
+
+        .workflow-panel {
+            display: none;
+        }
+
+        .workflow-panel.active {
+            display: block;
+        }
+
+        .workflow-title {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .workflow-copy {
+            display: block;
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #5b6476;
+        }
+
         .input-group {
             margin-bottom: 20px;
         }
@@ -257,6 +309,105 @@
             font-family: "Courier New", monospace;
             resize: vertical;
             min-height: 100px;
+        }
+
+        .options-card {
+            background: #f8faff;
+            border: 1px solid #dbe4ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .options-card h3 {
+            font-size: 15px;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .options-card > p {
+            font-size: 13px;
+            color: #5b6476;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .option-section {
+            background: #ffffff;
+            border: 1px solid #dbe4ff;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .option-section h4 {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 4px;
+        }
+
+        .option-section p {
+            font-size: 12.5px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .option-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-item {
+            position: relative;
+        }
+
+        .option-item input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .option-item label {
+            display: block;
+            border: 1px solid #dbe4ff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s, transform 0.2s;
+            margin-bottom: 0;
+        }
+
+        .option-item label:hover {
+            border-color: #a5b4fc;
+            transform: translateY(-1px);
+        }
+
+        .option-item input:checked + label {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #eef2ff 0%, #f8faff 100%);
+            box-shadow: 0 10px 22px rgba(102, 126, 234, 0.12);
+        }
+
+        .option-title {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 4px;
+        }
+
+        .option-copy {
+            display: block;
+            font-size: 12px;
+            line-height: 1.45;
+            color: #64748b;
         }
 
         .radio-group {
@@ -369,6 +520,102 @@
             margin-top: 15px;
         }
 
+        .info code {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 6px;
+            padding: 1px 5px;
+        }
+
+        .limits-card {
+            background: #f8faff;
+            border: 1px solid #dbe4ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .limits-card h3 {
+            font-size: 16px;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        .limits-card p {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .limits-card.empty {
+            display: none;
+        }
+
+        .limits-list,
+        .error-limits-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px 16px;
+            margin-top: 14px;
+        }
+
+        .limits-item,
+        .error-limits-item {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #dbe4ff;
+        }
+
+        .limits-item-label,
+        .error-limits-label {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .limits-item-value,
+        .error-limits-value {
+            display: block;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .notes-list {
+            margin-top: 12px;
+            padding-left: 18px;
+            color: #475569;
+            font-size: 13px;
+        }
+
+        .notes-list li + li {
+            margin-top: 6px;
+        }
+
+        .error-copy {
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .error-suggestion {
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 8px;
+        }
+
+        .error-limits {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(153, 27, 27, 0.18);
+        }
+
+        .error-limits h4 {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
         .status-box {
             margin-top: 10px;
             padding: 10px 12px;
@@ -411,11 +658,12 @@
 
         .about-card p {
             color: #374151;
+            font-size: 13px;
+            line-height: 1.42;
         }
 
         .about-note {
             margin-top: 10px;
-            font-size: 13px;
             color: #5b6476;
         }
 
@@ -446,6 +694,13 @@
             }
 
             .tool-switcher {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-switcher,
+            .options-grid,
+            .limits-list,
+            .error-limits-list {
                 grid-template-columns: 1fr;
             }
         }
@@ -580,97 +835,249 @@
             </div>
 
             <section class="tool-panel active" id="preparePanel" role="tabpanel" aria-labelledby="toolTabPrepare">
-                <p class="tool-panel-intro">Upload a ligand file or enter a SMILES string to generate a docking-ready <code>PDBQT</code> structure.</p>
+                <p class="tool-panel-intro">Choose between single-ligand preparation and batch library preparation. Individual mode keeps the current one-molecule workflow, while batch mode packages a full SMILES library into a ZIP of <code>PDBQT</code> files.</p>
 
-                <div class="input-group">
-                    <label>Input method:</label>
-                    <div class="radio-group">
-                        <label for="inputTypeFile">
-                            <input type="radio" id="inputTypeFile" name="inputType" value="file" checked>
-                            Upload file
-                        </label>
-                        <label for="inputTypeSmiles">
-                            <input type="radio" id="inputTypeSmiles" name="inputType" value="smiles">
-                            Enter SMILES
-                        </label>
+                <div class="workflow-switcher" role="tablist" aria-label="Ligand preparation workflows">
+                    <button class="workflow-tab active" id="workflowTabSingle" type="button" data-workflow="single" role="tab" aria-selected="true" aria-controls="singleWorkflowPanel">
+                        <span class="workflow-title">Ligand preparation</span>
+                        <span class="workflow-copy">Prepare a single ligand from a structure file or a SMILES string.</span>
+                    </button>
+                    <button class="workflow-tab" id="workflowTabBatch" type="button" data-workflow="batch" role="tab" aria-selected="false" aria-controls="batchWorkflowPanel">
+                        <span class="workflow-title">Batch ligand preparation</span>
+                        <span class="workflow-copy">Process a SMILES library and download a ZIP with prepared ligands.</span>
+                    </button>
+                </div>
+
+                <section class="workflow-panel active" id="singleWorkflowPanel" role="tabpanel" aria-labelledby="workflowTabSingle">
+                    <div class="input-group">
+                        <label>Input method:</label>
+                        <div class="radio-group">
+                            <label for="inputTypeFile">
+                                <input type="radio" id="inputTypeFile" name="inputType" value="file" checked>
+                                Upload file
+                            </label>
+                            <label for="inputTypeSmiles">
+                                <input type="radio" id="inputTypeSmiles" name="inputType" value="smiles">
+                                Enter SMILES
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group" id="fileInputGroup">
-                    <label for="ligandFile">Files: SDF, PDB, MOL2, SMI, SMILES and TXT</label>
-                    <input type="file" id="ligandFile" accept=".sdf,.pdb,.mol2,.smi,.smiles,.txt">
-                </div>
-
-                <div class="input-group" id="smilesInputGroup" style="display: none;">
-                    <label for="smilesInput">SMILES string</label>
-                    <textarea id="smilesInput" placeholder="Example: CCO"></textarea>
-                </div>
-
-                <div class="input-group">
-                    <label>Output</label>
-                    <div class="info" style="margin-top: 8px;">
-                        <strong>PDBQT</strong> format for AutoDock and Vina workflows.
+                    <div class="input-group" id="fileInputGroup">
+                        <label for="ligandFile">Files: SDF, PDB, MOL2, SMI, SMILES and TXT</label>
+                        <input type="file" id="ligandFile" accept=".sdf,.pdb,.mol2,.smi,.smiles,.txt">
                     </div>
-                </div>
 
-                <div class="input-group">
-                    <label>Hydrogen handling:</label>
-                    <div class="radio-group">
-                        <label for="hydrogenHandlingMerge">
-                            <input type="radio" id="hydrogenHandlingMerge" name="hydrogenHandling" value="merge" checked>
-                            Merge hydrogens (recommended)
-                        </label>
-                        <label for="hydrogenHandlingKeep">
-                            <input type="radio" id="hydrogenHandlingKeep" name="hydrogenHandling" value="keep">
-                            Keep hydrogens separate
-                        </label>
+                    <div class="input-group" id="smilesInputGroup" style="display: none;">
+                        <label for="smilesInput">SMILES string</label>
+                        <textarea id="smilesInput" placeholder="Example: CCO"></textarea>
                     </div>
-                </div>
 
-                <div class="input-group">
-                    <label>Charge model:</label>
-                    <div class="radio-group">
-                        <label for="chargeModelGasteiger">
-                            <input type="radio" id="chargeModelGasteiger" name="chargeModel" value="gasteiger" checked>
-                            Gasteiger (default)
-                        </label>
-                        <label for="chargeModelNagl">
-                            <input type="radio" id="chargeModelNagl" name="chargeModel" value="nagl">
-                            Nagl (neural network)
-                        </label>
-                        <label for="chargeModelEspaloma">
-                            <input type="radio" id="chargeModelEspaloma" name="chargeModel" value="espaloma">
-                            Espaloma (deep learning)
-                        </label>
-                        <label for="chargeModelZero">
-                            <input type="radio" id="chargeModelZero" name="chargeModel" value="zero">
-                            Zero (no charges)
-                        </label>
+                    <div class="input-group">
+                        <label>Output</label>
+                        <div class="info" style="margin-top: 8px;">
+                            <strong>PDBQT</strong> format for AutoDock and Vina workflows.
+                        </div>
                     </div>
-                </div>
 
-                <div class="info tool-note" style="font-size: 12px;">
-                    <strong>Notes:</strong> Use merged hydrogens for standard AutoDock and Vina workflows. Keep hydrogens
-                    separate only if your downstream analysis requires them. Gasteiger is the default charge model; Nagl
-                    and Espaloma may improve charge assignment for more complex ligands, but can increase processing time.
-                    Zero assigns partial charges of 0 to all atoms.
-                </div>
+                    <div class="options-card">
+                        <h3>Preparation options</h3>
+                        <p>Choose how hydrogens and partial charges should be handled before generating the docking-ready output.</p>
 
-                <button class="btn" id="processBtn">Prepare Ligand</button>
+                        <div class="options-grid">
+                            <div class="option-section">
+                                <h4>Hydrogen handling</h4>
+                                <p>Use merged hydrogens for standard docking workflows, or keep them separate for specialized downstream analysis.</p>
+                                <div class="option-list">
+                                    <div class="option-item">
+                                        <input type="radio" id="hydrogenHandlingMerge" name="hydrogenHandling" value="merge" checked>
+                                        <label for="hydrogenHandlingMerge">
+                                            <span class="option-title">Merge hydrogens</span>
+                                            <span class="option-copy">Recommended for standard AutoDock and Vina preparation.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="hydrogenHandlingKeep" name="hydrogenHandling" value="keep">
+                                        <label for="hydrogenHandlingKeep">
+                                            <span class="option-title">Keep hydrogens separate</span>
+                                            <span class="option-copy">Use this only if your downstream analysis requires explicit hydrogens.</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
 
-                <div class="progress" id="progress">
-                    <div class="spinner"></div>
-                    <p>Processing ligand... this may take a few seconds</p>
-                </div>
+                            <div class="option-section">
+                                <h4>Charge model</h4>
+                                <p>Select the method used to assign ligand partial charges before exporting the final structure.</p>
+                                <div class="option-list">
+                                    <div class="option-item">
+                                        <input type="radio" id="chargeModelGasteiger" name="chargeModel" value="gasteiger" checked>
+                                        <label for="chargeModelGasteiger">
+                                            <span class="option-title">Gasteiger</span>
+                                            <span class="option-copy">Default option with broad compatibility for docking workflows.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="chargeModelNagl" name="chargeModel" value="nagl">
+                                        <label for="chargeModelNagl">
+                                            <span class="option-title">Nagl</span>
+                                            <span class="option-copy">Neural-network-based charge assignment for more advanced cases.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="chargeModelEspaloma" name="chargeModel" value="espaloma">
+                                        <label for="chargeModelEspaloma">
+                                            <span class="option-title">Espaloma</span>
+                                            <span class="option-copy">Deep-learning-based charge model that may increase processing time.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="chargeModelZero" name="chargeModel" value="zero">
+                                        <label for="chargeModelZero">
+                                            <span class="option-title">Zero</span>
+                                            <span class="option-copy">Assign zero partial charges to all atoms.</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="error" id="error">
-                    <strong>Error:</strong> <span id="errorMessage"></span>
-                </div>
+                    <div class="info tool-note" style="font-size: 12px;">
+                        <strong>Notes:</strong> Use merged hydrogens for standard AutoDock and Vina workflows. Keep hydrogens
+                        separate only if your downstream analysis requires them. Gasteiger is the default charge model; Nagl
+                        and Espaloma may improve charge assignment for more complex ligands, but can increase processing time.
+                        Zero assigns partial charges of 0 to all atoms.
+                    </div>
 
-                <div class="result" id="result">
-                    <h3>Ligand processed successfully!</h3>
-                    <div id="resultContent"></div>
-                </div>
+                    <button class="btn" id="processBtn">Prepare Ligand</button>
+
+                    <div class="progress" id="progress">
+                        <div class="spinner"></div>
+                        <p>Processing ligand... this may take a few seconds</p>
+                    </div>
+
+                    <div class="error" id="error">
+                        <strong>Error:</strong> <span id="errorMessage"></span>
+                    </div>
+
+                    <div class="result" id="result">
+                        <h3>Ligand processed successfully!</h3>
+                        <div id="resultContent"></div>
+                    </div>
+                </section>
+
+                <section class="workflow-panel" id="batchWorkflowPanel" role="tabpanel" aria-labelledby="workflowTabBatch">
+                    <div class="input-group">
+                        <label>Input method:</label>
+                        <div class="info" style="margin-top: 8px;">
+                            Upload a batch library file in <code>.smi</code>, <code>.smiles</code>, or <code>.txt</code> format.
+                        </div>
+                    </div>
+
+                    <div class="limits-card empty" id="batchLimitsCard">
+                        <h3>Batch processing limits</h3>
+                        <p id="batchLimitsIntro">Loading active prototype limits from the backend...</p>
+                        <div class="limits-list" id="batchLimitsList"></div>
+                        <ul class="notes-list" id="batchLimitsNotes"></ul>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="batchFile">Upload library file</label>
+                        <input type="file" id="batchFile" accept=".smi,.smiles,.txt">
+                    </div>
+
+                    <div class="info tool-note" style="font-size: 12px;">
+                        <strong>Notes:</strong> Use batch mode when you want to prepare many ligands at once from a text-based
+                        library file. If your library is too large for the current prototype, split it into smaller files
+                        before uploading.
+                    </div>
+
+                    <div class="options-card">
+                        <h3>Preparation options</h3>
+                        <p>Apply the same hydrogen and charge settings across the full ligand library before packaging the ZIP output.</p>
+
+                        <div class="options-grid">
+                            <div class="option-section">
+                                <h4>Hydrogen handling</h4>
+                                <p>Set how hydrogens should be treated for every ligand generated in the batch output.</p>
+                                <div class="option-list">
+                                    <div class="option-item">
+                                        <input type="radio" id="batchHydrogenMerge" name="batchHydrogenHandling" value="merge" checked>
+                                        <label for="batchHydrogenMerge">
+                                            <span class="option-title">Merge hydrogens</span>
+                                            <span class="option-copy">Recommended for standard batch preparation and docking workflows.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="batchHydrogenKeep" name="batchHydrogenHandling" value="keep">
+                                        <label for="batchHydrogenKeep">
+                                            <span class="option-title">Keep hydrogens separate</span>
+                                            <span class="option-copy">Use this only if the full library must retain explicit hydrogens.</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="option-section">
+                                <h4>Charge model</h4>
+                                <p>Choose the charge assignment method applied uniformly across the uploaded batch library.</p>
+                                <div class="option-list">
+                                    <div class="option-item">
+                                        <input type="radio" id="batchChargeModelGasteiger" name="batchChargeModel" value="gasteiger" checked>
+                                        <label for="batchChargeModelGasteiger">
+                                            <span class="option-title">Gasteiger</span>
+                                            <span class="option-copy">Default option with broad compatibility for batch docking preparation.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="batchChargeModelNagl" name="batchChargeModel" value="nagl">
+                                        <label for="batchChargeModelNagl">
+                                            <span class="option-title">Nagl</span>
+                                            <span class="option-copy">Neural-network-based assignment for more advanced ligand sets.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="batchChargeModelEspaloma" name="batchChargeModel" value="espaloma">
+                                        <label for="batchChargeModelEspaloma">
+                                            <span class="option-title">Espaloma</span>
+                                            <span class="option-copy">Deep-learning-based model that may increase processing time.</span>
+                                        </label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="batchChargeModelZero" name="batchChargeModel" value="zero">
+                                        <label for="batchChargeModelZero">
+                                            <span class="option-title">Zero</span>
+                                            <span class="option-copy">Assign zero partial charges to all atoms in the batch.</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn" id="batchProcessBtn" style="background: linear-gradient(135deg, #5f6fd8 0%, #6d5fc7 100%);">Prepare Batch ZIP</button>
+
+                    <div class="progress" id="batchProgress">
+                        <div class="spinner"></div>
+                        <p>Processing batch library... this may take longer depending on the number of ligands.</p>
+                    </div>
+
+                    <div class="error" id="batchError">
+                        <strong>Error:</strong>
+                        <div class="error-copy" id="batchErrorMessage"></div>
+                        <div class="error-suggestion" id="batchErrorSuggestion" style="display: none;"></div>
+                        <div class="error-limits" id="batchErrorLimits" style="display: none;">
+                            <h4>Current prototype limits</h4>
+                            <div class="error-limits-list" id="batchErrorLimitsList"></div>
+                        </div>
+                    </div>
+
+                    <div class="result" id="batchResult">
+                        <h3>Batch preparation successful!</h3>
+                        <div id="batchResultContent"></div>
+                    </div>
+                </section>
             </section>
 
             <section class="tool-panel" id="convertPanel" role="tabpanel" aria-labelledby="toolTabConvert">
@@ -704,11 +1111,15 @@
         <div class="card about-card">
             <h2>About</h2>
             <p>
-                <strong>LigandHub</strong> (v0.1.0) is a web-based platform for ligand preparation in molecular docking workflows. 
-                It accepts molecular structures in common input formats, including <code>SDF</code>, <code>PDB</code>, 
-                <code>MOL2</code>, and <code>SMILES</code>, and generates <code>PDBQT</code> files for downstream docking.
-                It also supports recovery of docked ligand coordinates from <code>PDBQT</code> or <code>DLG</code> result files
-                into <code>SDF</code> format for downstream analysis and visualization.
+                <strong>LigandHub</strong> (v0.1.0) is a prototype web-based platform for ligand preparation 
+                and docking output recovery. It converts molecular structures in <code>SDF</code>, <code>PDB</code>, 
+                <code>MOL2</code>, or <code>SMILES</code> format into <code>PDBQT</code> files and can recover 
+                docked ligand coordinates from <code>PDBQT</code> or <code>DLG</code> results into <code>SDF</code> 
+                format. Ligands can be processed individually or in batch through the Batch Ligand Preparation section 
+                using <code>SMILES</code> libraries. The batch workflow returns a <code>ZIP</code> archive containing 
+                prepared <code>PDBQT</code> ligands and a summary file. Large libraries should be split into smaller 
+                files before upload. This version applies conservative upload and library-size limits shown 
+                in the interface when available.
             </p>
             <p class="about-note">
                 <strong>Data handling:</strong> Uploaded files, including SMILES-containing text files, are stored only 
@@ -737,6 +1148,8 @@
         const inputTypeRadios = document.querySelectorAll('input[name="inputType"]');
         const toolTabs = document.querySelectorAll(".tool-tab");
         const toolPanels = document.querySelectorAll(".tool-panel");
+        const workflowTabs = document.querySelectorAll(".workflow-tab");
+        const workflowPanels = document.querySelectorAll(".workflow-panel");
         const fileInputGroup = document.getElementById("fileInputGroup");
         const smilesInputGroup = document.getElementById("smilesInputGroup");
         const ligandFile = document.getElementById("ligandFile");
@@ -755,6 +1168,31 @@
         const convertErrorMessage = document.getElementById("convertErrorMessage");
         const convertResult = document.getElementById("convertResult");
         const convertResultContent = document.getElementById("convertResultContent");
+        const batchFile = document.getElementById("batchFile");
+        const batchProcessBtn = document.getElementById("batchProcessBtn");
+        const batchProgress = document.getElementById("batchProgress");
+        const batchError = document.getElementById("batchError");
+        const batchErrorMessage = document.getElementById("batchErrorMessage");
+        const batchErrorSuggestion = document.getElementById("batchErrorSuggestion");
+        const batchErrorLimits = document.getElementById("batchErrorLimits");
+        const batchErrorLimitsList = document.getElementById("batchErrorLimitsList");
+        const batchResult = document.getElementById("batchResult");
+        const batchResultContent = document.getElementById("batchResultContent");
+        const batchLimitsCard = document.getElementById("batchLimitsCard");
+        const batchLimitsIntro = document.getElementById("batchLimitsIntro");
+        const batchLimitsList = document.getElementById("batchLimitsList");
+        const batchLimitsNotes = document.getElementById("batchLimitsNotes");
+
+        const LIMIT_LABELS = {
+            batch_upload_max_bytes: "Maximum batch upload size",
+            batch_max_molecules: "Maximum molecules per file",
+            batch_max_scrubbed_states_per_ligand: "Maximum states per ligand",
+            batch_max_generated_pdbqt_files: "Maximum generated PDBQT files",
+            batch_max_total_pdbqt_bytes: "Maximum total generated size",
+            single_upload_max_bytes: "Maximum single upload size"
+        };
+
+        let activeLimits = null;
 
         toolTabs.forEach((tab) => {
             tab.addEventListener("click", () => {
@@ -768,6 +1206,22 @@
 
                 toolPanels.forEach((panel) => {
                     panel.classList.toggle("active", panel.id === `${selectedTool}Panel`);
+                });
+            });
+        });
+
+        workflowTabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                const selectedWorkflow = tab.dataset.workflow;
+
+                workflowTabs.forEach((item) => {
+                    const isActive = item === tab;
+                    item.classList.toggle("active", isActive);
+                    item.setAttribute("aria-selected", isActive ? "true" : "false");
+                });
+
+                workflowPanels.forEach((panel) => {
+                    panel.classList.toggle("active", panel.id === `${selectedWorkflow}WorkflowPanel`);
                 });
             });
         });
@@ -804,6 +1258,116 @@
             }
         }
 
+        function formatBytes(bytes) {
+            if (!Number.isFinite(bytes)) {
+                return "Unavailable";
+            }
+
+            if (bytes < 1024) {
+                return `${bytes} B`;
+            }
+
+            const units = ["KB", "MB", "GB"];
+            let value = bytes / 1024;
+            let unitIndex = 0;
+
+            while (value >= 1024 && unitIndex < units.length - 1) {
+                value /= 1024;
+                unitIndex += 1;
+            }
+
+            return `${value.toFixed(value >= 10 ? 0 : 1)} ${units[unitIndex]}`;
+        }
+
+        function formatLimitValue(key, value) {
+            if (key.includes("_bytes")) {
+                return formatBytes(value);
+            }
+
+            return String(value);
+        }
+
+        function renderLimitEntries(container, limits, itemClass, labelClass, valueClass) {
+            container.innerHTML = "";
+
+            const keys = [
+                "batch_upload_max_bytes",
+                "batch_max_molecules",
+                "batch_max_scrubbed_states_per_ligand",
+                "batch_max_generated_pdbqt_files",
+                "batch_max_total_pdbqt_bytes"
+            ];
+
+            keys.forEach((key) => {
+                if (limits?.[key] === undefined) {
+                    return;
+                }
+
+                const item = document.createElement("div");
+                item.className = itemClass;
+                item.innerHTML = `
+                    <span class="${labelClass}">${LIMIT_LABELS[key] || key}</span>
+                    <span class="${valueClass}">${formatLimitValue(key, limits[key])}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        async function loadPrototypeLimits() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/limits`);
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                activeLimits = data?.limits || null;
+
+                const serviceMode = data?.service_mode ? `Service mode: ${data.service_mode}. ` : "";
+                batchLimitsIntro.textContent = `${serviceMode}These are the active backend limits for the current prototype deployment on Render.`;
+                batchLimitsCard.classList.remove("empty");
+                renderLimitEntries(batchLimitsList, activeLimits, "limits-item", "limits-item-label", "limits-item-value");
+
+                batchLimitsNotes.innerHTML = "";
+                (data?.notes || []).forEach((note) => {
+                    const item = document.createElement("li");
+                    item.textContent = note;
+                    batchLimitsNotes.appendChild(item);
+                });
+            } catch (err) {
+                activeLimits = null;
+                batchLimitsIntro.textContent = "Prototype limits could not be loaded right now. You can still submit a batch file and let the backend validate it.";
+                batchLimitsCard.classList.add("empty");
+                batchLimitsList.innerHTML = "";
+                batchLimitsNotes.innerHTML = "";
+            }
+        }
+
+        function getContentDispositionFilename(headerValue) {
+            if (!headerValue) {
+                return null;
+            }
+
+            const utfMatch = headerValue.match(/filename\*=UTF-8''([^;]+)/i);
+            if (utfMatch?.[1]) {
+                return decodeURIComponent(utfMatch[1]);
+            }
+
+            const asciiMatch = headerValue.match(/filename="?([^"]+)"?/i);
+            return asciiMatch?.[1] || null;
+        }
+
+        function downloadBlob(blob, filename) {
+            const downloadUrl = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = downloadUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(downloadUrl);
+        }
+
         async function getErrorMessage(response) {
             const textResponse = response.clone();
 
@@ -826,6 +1390,28 @@
 
                 return `Request failed with status ${response.status}`;
             }
+        }
+
+        async function getBatchErrorData(response) {
+            const textResponse = response.clone();
+
+            try {
+                const errorData = await response.json();
+                if (errorData && typeof errorData === "object") {
+                    return errorData;
+                }
+            } catch {
+                try {
+                    const errorText = await textResponse.text();
+                    if (errorText.trim()) {
+                        return { detail: errorText };
+                    }
+                } catch {
+                    // Fall back to a status-based message below.
+                }
+            }
+
+            return { detail: `Request failed with status ${response.status}` };
         }
 
         processBtn.addEventListener("click", async () => {
@@ -889,14 +1475,8 @@
                 }
 
                 const blob = await response.blob();
-                const downloadUrl = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = downloadUrl;
-                a.download = `${filename}_prepared.pdbqt`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(downloadUrl);
+                const downloadName = getContentDispositionFilename(response.headers.get("content-disposition")) || `${filename}_prepared.pdbqt`;
+                downloadBlob(blob, downloadName);
 
                 showResult("Your ligand has been processed successfully and the PDBQT file was downloaded.");
             } catch (err) {
@@ -935,14 +1515,9 @@
                 }
 
                 const blob = await response.blob();
-                const downloadUrl = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = downloadUrl;
-                a.download = file.name.replace(/\.(pdbqt|dlg)$/i, "_docked.sdf");
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(downloadUrl);
+                const downloadName = getContentDispositionFilename(response.headers.get("content-disposition"))
+                    || file.name.replace(/\.(pdbqt|dlg)$/i, "_docked.sdf");
+                downloadBlob(blob, downloadName);
 
                 showConvertResult(`Successfully converted <code>${file.name}</code> to SDF format with docked coordinates.`);
             } catch (err) {
@@ -950,6 +1525,90 @@
             } finally {
                 convertBtn.disabled = false;
                 convertProgress.classList.remove("active");
+            }
+        });
+
+        batchProcessBtn.addEventListener("click", async () => {
+            batchError.classList.remove("active");
+            batchResult.classList.remove("active");
+            batchErrorSuggestion.style.display = "none";
+            batchErrorSuggestion.textContent = "";
+            batchErrorLimits.style.display = "none";
+            batchErrorLimitsList.innerHTML = "";
+
+            if (!batchFile.files || batchFile.files.length === 0) {
+                showBatchError({ message: "Please select a batch library file in .smi, .smiles, or .txt format." });
+                return;
+            }
+
+            const file = batchFile.files[0];
+            const validExtension = /\.(smi|smiles|txt)$/i.test(file.name);
+            if (!validExtension) {
+                showBatchError({ message: "Batch ligand preparation only accepts .smi, .smiles, or .txt files." });
+                return;
+            }
+
+            if (activeLimits?.batch_upload_max_bytes && file.size > activeLimits.batch_upload_max_bytes) {
+                showBatchError({
+                    message: "This library exceeds the current prototype upload limit.",
+                    suggestion: "Split it into smaller batch files before uploading.",
+                    limits: activeLimits
+                });
+                return;
+            }
+
+            const chargeModel = document.querySelector('input[name="batchChargeModel"]:checked').value;
+            const hydrogenHandling = document.querySelector('input[name="batchHydrogenHandling"]:checked').value;
+            const mergeH = hydrogenHandling === "merge";
+
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("filename", file.name.replace(/\.[^.]+$/, "") || "ligands_batch");
+            formData.append("merge_h", String(mergeH));
+            formData.append("charge_model", chargeModel);
+
+            batchProcessBtn.disabled = true;
+            batchProgress.classList.add("active");
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/prepare_ligand_batch`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await getBatchErrorData(response);
+                    const detail = errorData?.detail;
+
+                    if (detail && typeof detail === "object") {
+                        throw {
+                            message: detail.message || "Batch processing failed.",
+                            suggestion: detail.suggestion || "",
+                            limits: detail.limits || null
+                        };
+                    }
+
+                    const fallbackMessage = typeof detail === "string" && detail.trim()
+                        ? detail
+                        : "Batch processing failed.";
+                    throw { message: fallbackMessage };
+                }
+
+                const blob = await response.blob();
+                const downloadName = getContentDispositionFilename(response.headers.get("content-disposition"))
+                    || "ligands_pdbqt_batch.zip";
+                downloadBlob(blob, downloadName);
+
+                showBatchResult(`Batch ligand preparation completed successfully. The ZIP archive <code>${downloadName}</code> was downloaded automatically.`);
+            } catch (err) {
+                showBatchError({
+                    message: err.message || "Unexpected error",
+                    suggestion: err.suggestion || "",
+                    limits: err.limits || null
+                });
+            } finally {
+                batchProcessBtn.disabled = false;
+                batchProgress.classList.remove("active");
             }
         });
 
@@ -973,7 +1632,29 @@
             convertResult.classList.add("active");
         }
 
+        function showBatchError({ message, suggestion = "", limits = null }) {
+            batchErrorMessage.textContent = message;
+
+            if (suggestion) {
+                batchErrorSuggestion.textContent = suggestion;
+                batchErrorSuggestion.style.display = "block";
+            }
+
+            if (limits) {
+                renderLimitEntries(batchErrorLimitsList, limits, "error-limits-item", "error-limits-label", "error-limits-value");
+                batchErrorLimits.style.display = "block";
+            }
+
+            batchError.classList.add("active");
+        }
+
+        function showBatchResult(message) {
+            batchResultContent.innerHTML = `<p>${message}</p>`;
+            batchResult.classList.add("active");
+        }
+
         checkBackendHealth();
+        loadPrototypeLimits();
     </script>
 </body>
 </html>
