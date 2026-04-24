@@ -151,6 +151,81 @@
             padding-bottom: 10px;
         }
 
+        .tool-switcher {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .tool-tab {
+            border: 2px solid #dbe4ff;
+            background: #f8faff;
+            color: #334155;
+            border-radius: 12px;
+            padding: 16px 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tool-tab:hover {
+            transform: translateY(-1px);
+            border-color: #a5b4fc;
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.12);
+        }
+
+        .tool-tab.active {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 100%);
+            border-color: #667eea;
+            box-shadow: 0 14px 28px rgba(102, 126, 234, 0.16);
+        }
+
+        .tool-tab[data-tool="prepare"].active {
+            background: linear-gradient(135deg, #eef2ff 0%, #e9edff 100%);
+            border-color: #667eea;
+        }
+
+        .tool-tab[data-tool="convert"].active {
+            background: linear-gradient(135deg, #f2f5ff 0%, #e6efff 100%);
+            border-color: #5b6ee1;
+            box-shadow: 0 14px 28px rgba(91, 110, 225, 0.15);
+        }
+
+        .tool-tab-title {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 5px;
+        }
+
+        .tool-tab-copy {
+            display: block;
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #5b6476;
+        }
+
+        .tool-panel {
+            display: none;
+        }
+
+        .tool-panel.active {
+            display: block;
+        }
+
+        .tool-panel-intro {
+            color: #4b5563;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .tool-note {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
         .input-group {
             margin-bottom: 20px;
         }
@@ -295,14 +370,15 @@
         }
 
         .status-box {
-            margin-top: 15px;
+            margin-top: 10px;
             padding: 10px 12px;
             border-radius: 8px;
             font-size: 14px;
         }
 
         #backendStatus {
-            margin-bottom: 18px;
+            margin-bottom: 14px;
+            font-size: 13px;
         }
 
         .status-ok {
@@ -368,6 +444,10 @@
             .header h1 {
                 font-size: 1.8rem;
             }
+
+            .tool-switcher {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -421,7 +501,7 @@
             </div>
             <div class="topbar-text">
                 <div class="topbar-title">LigandHub</div>
-                <div class="topbar-subtitle">PDBQT Generator</div>
+                <div class="topbar-subtitle">Docking Toolkit</div>
             </div>
         </div>
     </div>
@@ -475,97 +555,140 @@
                     </svg>
                 </div>
                 <div class="hero-title-group">
-                    <h1>LigandHub</h1>
+                    <h1>LigandHub <span style="font-size: 0.42em; font-weight: 600; opacity: 0.88;">v0.1.0</span></h1>
                 </div>
             </div>
-            <p>Web interface for ligand preparation and <code>PDBQT</code> generation for molecular docking</p>
+            <p>Web interface for ligand preparation, <code>PDBQT</code> generation, and docking result recovery as <code>SDF</code></p>
         </div>
 
         <div class="card">
-            <h2>Ligand Molecule</h2>
+            <h2>Docking Tools</h2>
 
-            <div class="input-group">
-                <label>Input method:</label>
-                <div class="radio-group">
-                    <label for="inputTypeFile">
-                        <input type="radio" id="inputTypeFile" name="inputType" value="file" checked>
-                        Upload file
-                    </label>
-                    <label for="inputTypeSmiles">
-                        <input type="radio" id="inputTypeSmiles" name="inputType" value="smiles">
-                        Enter SMILES
-                    </label>
-                </div>
-            </div>
-
-            <div class="input-group" id="fileInputGroup">
-                <label for="ligandFile">Files: SDF, PDB, MOL2, SMI, SMILES and TXT</label>
-                <input type="file" id="ligandFile" accept=".sdf,.pdb,.mol2,.smi,.smiles,.txt">
-            </div>
-
-            <div class="input-group" id="smilesInputGroup" style="display: none;">
-                <label for="smilesInput">SMILES string</label>
-                <textarea id="smilesInput" placeholder="Example: CCO"></textarea>
-            </div>
-
-            <div class="input-group">
-                <label>Output format</label>
-                <div class="radio-group">
-                    <label for="outputFormatPdbqt">
-                        <input type="radio" id="outputFormatPdbqt" name="outputFormat" value="pdbqt" checked>
-                        PDBQT (AutoDock / Vina)
-                    </label>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Hydrogen handling:</label>
-                <div class="radio-group">
-                    <label for="hydrogenHandlingMerge">
-                        <input type="radio" id="hydrogenHandlingMerge" name="hydrogenHandling" value="merge" checked>
-                        Merge hydrogens (default for AutoDock)
-                    </label>
-                    <label for="hydrogenHandlingKeep">
-                        <input type="radio" id="hydrogenHandlingKeep" name="hydrogenHandling" value="keep">
-                        Keep hydrogens separate
-                    </label>
-                </div>
-                <div class="info" style="margin-top: 8px; font-size: 12px;">
-                    <strong>Tip:</strong> Merging hydrogens adds their charge to the parent atom and excludes them from the
-                    PDBQT file. This is the default behavior for AutoDock Vina. Keep them separate if you need explicit
-                    hydrogen atoms.
-                </div>
+            <div class="tool-switcher" role="tablist" aria-label="LigandHub tools">
+                <button class="tool-tab active" id="toolTabPrepare" type="button" data-tool="prepare" role="tab" aria-selected="true" aria-controls="preparePanel">
+                    <span class="tool-tab-title">Prepare Ligand</span>
+                    <span class="tool-tab-copy">Generate <code>PDBQT</code> from ligand structures or SMILES.</span>
+                </button>
+                <button class="tool-tab" id="toolTabConvert" type="button" data-tool="convert" role="tab" aria-selected="false" aria-controls="convertPanel">
+                    <span class="tool-tab-title">Convert Docking Results</span>
+                    <span class="tool-tab-copy">Recover docked ligand coordinates from <code>PDBQT</code> or <code>DLG</code> into <code>SDF</code>.</span>
+                </button>
             </div>
 
             <div id="backendStatus" class="status-box status-bad">
-                Checking backend status...
+                Checking service status...
             </div>
 
-            <button class="btn" id="processBtn">Prepare the Ligand</button>
+            <section class="tool-panel active" id="preparePanel" role="tabpanel" aria-labelledby="toolTabPrepare">
+                <p class="tool-panel-intro">Upload a ligand file or paste a SMILES string to prepare a docking-ready <code>PDBQT</code> structure.</p>
 
-            <div class="progress" id="progress">
-                <div class="spinner"></div>
-                <p>Processing ligand... this may take a few seconds</p>
-            </div>
+                <div class="input-group">
+                    <label>Input method:</label>
+                    <div class="radio-group">
+                        <label for="inputTypeFile">
+                            <input type="radio" id="inputTypeFile" name="inputType" value="file" checked>
+                            Upload file
+                        </label>
+                        <label for="inputTypeSmiles">
+                            <input type="radio" id="inputTypeSmiles" name="inputType" value="smiles">
+                            Enter SMILES
+                        </label>
+                    </div>
+                </div>
 
-            <div class="error" id="error">
-                <strong>Error:</strong> <span id="errorMessage"></span>
-            </div>
+                <div class="input-group" id="fileInputGroup">
+                    <label for="ligandFile">Files: SDF, PDB, MOL2, SMI, SMILES and TXT</label>
+                    <input type="file" id="ligandFile" accept=".sdf,.pdb,.mol2,.smi,.smiles,.txt">
+                </div>
 
-            <div class="result" id="result">
-                <h3>Ligand processed successfully!</h3>
-                <div id="resultContent"></div>
-            </div>
+                <div class="input-group" id="smilesInputGroup" style="display: none;">
+                    <label for="smilesInput">SMILES string</label>
+                    <textarea id="smilesInput" placeholder="Example: CCO"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Output</label>
+                    <div class="info" style="margin-top: 8px;">
+                        <strong>PDBQT</strong> for AutoDock and Vina workflows.
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Hydrogen handling:</label>
+                    <div class="radio-group">
+                        <label for="hydrogenHandlingMerge">
+                            <input type="radio" id="hydrogenHandlingMerge" name="hydrogenHandling" value="merge" checked>
+                            Merge hydrogens (default for AutoDock)
+                        </label>
+                        <label for="hydrogenHandlingKeep">
+                            <input type="radio" id="hydrogenHandlingKeep" name="hydrogenHandling" value="keep">
+                            Keep hydrogens separate
+                        </label>
+                    </div>
+                    <div class="info tool-note" style="font-size: 12px;">
+                        <strong>Tip:</strong> Merge hydrogens for the default AutoDock Vina workflow. Keep them separate only
+                        if you explicitly need hydrogen atoms in the exported structure.
+                    </div>
+                </div>
+
+                <button class="btn" id="processBtn">Prepare Ligand</button>
+
+                <div class="progress" id="progress">
+                    <div class="spinner"></div>
+                    <p>Processing ligand... this may take a few seconds</p>
+                </div>
+
+                <div class="error" id="error">
+                    <strong>Error:</strong> <span id="errorMessage"></span>
+                </div>
+
+                <div class="result" id="result">
+                    <h3>Ligand processed successfully!</h3>
+                    <div id="resultContent"></div>
+                </div>
+            </section>
+
+            <section class="tool-panel" id="convertPanel" role="tabpanel" aria-labelledby="toolTabConvert">
+                <p class="tool-panel-intro">Upload a docking output file to recover the docked ligand geometry as an <code>SDF</code> file.</p>
+
+                <div class="info tool-note" style="font-size: 12px;">
+                    <strong>Tip:</strong> Use <code>PDBQT</code> for a direct docked pose export, or <code>DLG</code> if your run
+                    was saved as an AutoDock log file.
+                </div>
+
+                <div class="input-group">
+                    <label for="dockingResultFile">Upload docking result (PDBQT or DLG)</label>
+                    <input type="file" id="dockingResultFile" accept=".pdbqt,.dlg">
+                </div>
+
+                <button class="btn" id="convertBtn" style="background: linear-gradient(135deg, #5f6fd8 0%, #6d5fc7 100%);">
+                    Convert to SDF
+                </button>
+
+                <div class="progress" id="convertProgress">
+                    <div class="spinner"></div>
+                    <p>Converting docking result... this may take a few seconds</p>
+                </div>
+
+                <div class="error" id="convertError">
+                    <strong>Error:</strong> <span id="convertErrorMessage"></span>
+                </div>
+
+                <div class="result" id="convertResult">
+                    <h3>Conversion successful!</h3>
+                    <div id="convertResultContent"></div>
+                </div>
+            </section>
         </div>
 
         <div class="card about-card">
             <h2>About</h2>
             <p>
-                <strong>LigandHub</strong> is a web-based platform for ligand preparation in molecular docking workflows. 
+                <strong>LigandHub</strong> (v0.1.0) is a web-based platform for ligand preparation in molecular docking workflows. 
                 It accepts molecular structures in common input formats, including <code>SDF</code>, <code>PDB</code>, 
-                <code>MOL2</code>, and <code>SMILES</code>, and generates <code>PDBQT</code> files for downstream docking. 
-                Depending on the input structure, the preparation process may include explicit hydrogen addition 
-                and 3D coordinate generation before export.
+                <code>MOL2</code>, and <code>SMILES</code>, and generates <code>PDBQT</code> files for downstream docking.
+                It also supports recovery of docked ligand coordinates from <code>PDBQT</code> or <code>DLG</code> result files
+                into <code>SDF</code> format for downstream analysis and visualization.
             </p>
             <p class="about-note">
                 <strong>Data handling:</strong> Uploaded files, including SMILES-containing text files, are stored only 
@@ -592,6 +715,8 @@
         const BACKEND_URL = "https://ligandhub-api.onrender.com";
 
         const inputTypeRadios = document.querySelectorAll('input[name="inputType"]');
+        const toolTabs = document.querySelectorAll(".tool-tab");
+        const toolPanels = document.querySelectorAll(".tool-panel");
         const fileInputGroup = document.getElementById("fileInputGroup");
         const smilesInputGroup = document.getElementById("smilesInputGroup");
         const ligandFile = document.getElementById("ligandFile");
@@ -603,6 +728,29 @@
         const resultDiv = document.getElementById("result");
         const resultContent = document.getElementById("resultContent");
         const backendStatus = document.getElementById("backendStatus");
+        const dockingResultFile = document.getElementById("dockingResultFile");
+        const convertBtn = document.getElementById("convertBtn");
+        const convertProgress = document.getElementById("convertProgress");
+        const convertError = document.getElementById("convertError");
+        const convertErrorMessage = document.getElementById("convertErrorMessage");
+        const convertResult = document.getElementById("convertResult");
+        const convertResultContent = document.getElementById("convertResultContent");
+
+        toolTabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                const selectedTool = tab.dataset.tool;
+
+                toolTabs.forEach((item) => {
+                    const isActive = item === tab;
+                    item.classList.toggle("active", isActive);
+                    item.setAttribute("aria-selected", isActive ? "true" : "false");
+                });
+
+                toolPanels.forEach((panel) => {
+                    panel.classList.toggle("active", panel.id === `${selectedTool}Panel`);
+                });
+            });
+        });
 
         inputTypeRadios.forEach((radio) => {
             radio.addEventListener("change", (e) => {
@@ -625,13 +773,13 @@
 
                 const data = await response.json();
                 if (data.status === "ok") {
-                    backendStatus.textContent = "Backend status: online";
+                    backendStatus.textContent = "Service status: online";
                     backendStatus.className = "status-box status-ok";
                 } else {
                     throw new Error("Unexpected health response");
                 }
             } catch (err) {
-                backendStatus.textContent = "Backend status: unavailable";
+                backendStatus.textContent = "Service status: unavailable";
                 backendStatus.className = "status-box status-bad";
             }
         }
@@ -665,7 +813,6 @@
             resultDiv.classList.remove("active");
 
             const inputType = document.querySelector('input[name="inputType"]:checked').value;
-            const outputFormat = document.querySelector('input[name="outputFormat"]:checked').value;
             const hydrogenHandling = document.querySelector('input[name="hydrogenHandling"]:checked').value;
             const mergeH = hydrogenHandling === "merge";
 
@@ -705,7 +852,7 @@
             }
 
             formData.append("filename", filename);
-            formData.append("output_format", outputFormat);
+            formData.append("output_format", "pdbqt");
             formData.append("merge_h", mergeH.toString());
 
             try {
@@ -738,6 +885,52 @@
             }
         });
 
+        convertBtn.addEventListener("click", async () => {
+            convertError.classList.remove("active");
+            convertResult.classList.remove("active");
+
+            if (!dockingResultFile.files || dockingResultFile.files.length === 0) {
+                showConvertError("Please select a PDBQT or DLG file.");
+                return;
+            }
+
+            const file = dockingResultFile.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
+            convertBtn.disabled = true;
+            convertProgress.classList.add("active");
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/convert_pdbqt_to_sdf`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const message = await getErrorMessage(response);
+                    throw new Error(message);
+                }
+
+                const blob = await response.blob();
+                const downloadUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = downloadUrl;
+                a.download = file.name.replace(/\.(pdbqt|dlg)$/i, "_docked.sdf");
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(downloadUrl);
+
+                showConvertResult(`Successfully converted <code>${file.name}</code> to SDF format with docked coordinates.`);
+            } catch (err) {
+                showConvertError(err.message || "Unexpected error");
+            } finally {
+                convertBtn.disabled = false;
+                convertProgress.classList.remove("active");
+            }
+        });
+
         function showError(message) {
             errorMessage.textContent = message;
             errorDiv.classList.add("active");
@@ -746,6 +939,16 @@
         function showResult(message) {
             resultContent.innerHTML = `<p>${message}</p>`;
             resultDiv.classList.add("active");
+        }
+
+        function showConvertError(message) {
+            convertErrorMessage.textContent = message;
+            convertError.classList.add("active");
+        }
+
+        function showConvertResult(message) {
+            convertResultContent.innerHTML = `<p>${message}</p>`;
+            convertResult.classList.add("active");
         }
 
         checkBackendHealth();
