@@ -311,6 +311,75 @@
             min-height: 100px;
         }
 
+        .smiles-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .smiles-action-btn {
+            border: 0;
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .smiles-action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .smiles-action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .smiles-action-btn.primary {
+            background: #667eea;
+            color: #ffffff;
+        }
+
+        .smiles-action-btn.secondary {
+            background: #e5e7eb;
+            color: #334155;
+        }
+
+        .validation-message {
+            display: none;
+            margin-top: 8px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .validation-message.active {
+            display: block;
+        }
+
+        .validation-message.success {
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        .validation-message.warning {
+            background: #fffbeb;
+            border: 1px solid #fbbf24;
+            color: #92400e;
+        }
+
+        .validation-message.error {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
         .options-card {
             background: #f8faff;
             border: 1px solid #dbe4ff;
@@ -870,7 +939,12 @@
 
                     <div class="input-group" id="smilesInputGroup" style="display: none;">
                         <label for="smilesInput">SMILES string</label>
-                        <textarea id="smilesInput" placeholder="Example: CCO"></textarea>
+                        <textarea id="smilesInput" placeholder="Example: CCO (ethanol) or CC(=O)O (acetic acid)"></textarea>
+                        <div class="smiles-actions">
+                            <button class="smiles-action-btn primary" type="button" id="validateSmilesBtn">Validate SMILES</button>
+                            <button class="smiles-action-btn secondary" type="button" id="clearSmilesBtn">Clear</button>
+                        </div>
+                        <div class="validation-message" id="validationResult" role="status" aria-live="polite"></div>
                     </div>
 
                     <div class="input-group">
@@ -1154,6 +1228,9 @@
         const smilesInputGroup = document.getElementById("smilesInputGroup");
         const ligandFile = document.getElementById("ligandFile");
         const smilesInput = document.getElementById("smilesInput");
+        const validateSmilesBtn = document.getElementById("validateSmilesBtn");
+        const clearSmilesBtn = document.getElementById("clearSmilesBtn");
+        const validationResult = document.getElementById("validationResult");
         const processBtn = document.getElementById("processBtn");
         const progress = document.getElementById("progress");
         const errorDiv = document.getElementById("error");
@@ -1231,6 +1308,7 @@
                 if (e.target.value === "file") {
                     fileInputGroup.style.display = "block";
                     smilesInputGroup.style.display = "none";
+                    hideValidationMessage();
                 } else {
                     fileInputGroup.style.display = "none";
                     smilesInputGroup.style.display = "block";
@@ -1368,11 +1446,80 @@
             URL.revokeObjectURL(downloadUrl);
         }
 
+        function getIssueMessage(issue) {
+            if (!issue) {
+                return "";
+            }
+
+            if (typeof issue === "string") {
+                return issue;
+            }
+
+            return issue.message || issue.detail || JSON.stringify(issue);
+        }
+
+        function formatValidationFeedback({ message = "", errors = [], warnings = [] }) {
+            const lines = [];
+
+            if (message) {
+                lines.push(message);
+            }
+
+            errors.map(getIssueMessage).filter(Boolean).forEach((error) => {
+                lines.push(`Error: ${error}`);
+            });
+
+            warnings.map(getIssueMessage).filter(Boolean).forEach((warning) => {
+                lines.push(`Warning: ${warning}`);
+            });
+
+            return lines.join("\n");
+        }
+
+        function parseWarningHeader(response) {
+            const rawWarnings = response.headers.get("X-LigandHub-Warnings");
+            if (!rawWarnings) {
+                return [];
+            }
+
+            try {
+                const parsed = JSON.parse(rawWarnings);
+                return Array.isArray(parsed)
+                    ? parsed.map(getIssueMessage).filter(Boolean)
+                    : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
         async function getErrorMessage(response) {
             const textResponse = response.clone();
 
             try {
                 const errorData = await response.json();
+                const detail = errorData?.detail;
+
+                if (detail && typeof detail === "object") {
+                    const formatted = formatValidationFeedback({
+                        message: detail.message || "",
+                        errors: detail.errors || [],
+                        warnings: detail.warnings || []
+                    });
+
+                    if (formatted) {
+                        return formatted;
+                    }
+                }
+
                 if (typeof errorData.detail === "string" && errorData.detail.trim()) {
                     return errorData.detail;
                 }
@@ -1414,6 +1561,81 @@
             return { detail: `Request failed with status ${response.status}` };
         }
 
+        async function validateSmiles(smiles) {
+            const response = await fetch(`${BACKEND_URL}/validate`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({ smiles })
+            });
+
+            if (!response.ok) {
+                const message = await getErrorMessage(response);
+                throw new Error(message);
+            }
+
+            return response.json();
+        }
+
+        function showValidationMessage(message, type = "success") {
+            validationResult.textContent = message;
+            validationResult.className = `validation-message active ${type}`;
+        }
+
+        function hideValidationMessage() {
+            validationResult.className = "validation-message";
+            validationResult.textContent = "";
+        }
+
+        async function handleValidateSmiles() {
+            const smiles = smilesInput.value.trim();
+            if (!smiles) {
+                showValidationMessage("Please enter a SMILES string.", "error");
+                return null;
+            }
+
+            validateSmilesBtn.disabled = true;
+            validateSmilesBtn.textContent = "Validating...";
+
+            try {
+                const data = await validateSmiles(smiles);
+                const warnings = data.warnings || [];
+
+                if (data.valid) {
+                    const formatted = formatValidationFeedback({
+                        message: warnings.length ? "Valid SMILES with cautions." : "Valid SMILES.",
+                        warnings
+                    });
+                    showValidationMessage(formatted, warnings.length ? "warning" : "success");
+                } else {
+                    const formatted = formatValidationFeedback({
+                        message: "Invalid SMILES.",
+                        errors: data.errors || [],
+                        warnings
+                    }) || "Invalid SMILES syntax.";
+                    showValidationMessage(formatted, "error");
+                }
+
+                return data;
+            } catch (err) {
+                showValidationMessage(`Validation server error: ${err.message || "Unexpected error"}`, "error");
+                return null;
+            } finally {
+                validateSmilesBtn.disabled = false;
+                validateSmilesBtn.textContent = "Validate SMILES";
+            }
+        }
+
+        validateSmilesBtn.addEventListener("click", handleValidateSmiles);
+
+        clearSmilesBtn.addEventListener("click", () => {
+            smilesInput.value = "";
+            hideValidationMessage();
+        });
+
+        smilesInput.addEventListener("input", hideValidationMessage);
+
         processBtn.addEventListener("click", async () => {
             errorDiv.classList.remove("active");
             resultDiv.classList.remove("active");
@@ -1440,6 +1662,12 @@
                 const smiles = smilesInput.value.trim();
                 if (!smiles) {
                     showError("Please enter a SMILES string.");
+                    return;
+                }
+
+                const validation = await handleValidateSmiles();
+                if (!validation || !validation.valid) {
+                    showError("Please fix the SMILES validation errors before ligand preparation.");
                     return;
                 }
 
@@ -1475,10 +1703,11 @@
                 }
 
                 const blob = await response.blob();
+                const warnings = parseWarningHeader(response);
                 const downloadName = getContentDispositionFilename(response.headers.get("content-disposition")) || `${filename}_prepared.pdbqt`;
                 downloadBlob(blob, downloadName);
 
-                showResult("Your ligand has been processed successfully and the PDBQT file was downloaded.");
+                showResult("Your ligand has been processed successfully and the PDBQT file was downloaded.", warnings);
             } catch (err) {
                 showError(err.message || "Unexpected error");
             } finally {
@@ -1581,8 +1810,14 @@
                     const detail = errorData?.detail;
 
                     if (detail && typeof detail === "object") {
-                        throw {
+                        const formatted = formatValidationFeedback({
                             message: detail.message || "Batch processing failed.",
+                            errors: detail.errors || [],
+                            warnings: detail.warnings || []
+                        });
+
+                        throw {
+                            message: formatted || detail.message || "Batch processing failed.",
                             suggestion: detail.suggestion || "",
                             limits: detail.limits || null
                         };
@@ -1617,8 +1852,11 @@
             errorDiv.classList.add("active");
         }
 
-        function showResult(message) {
-            resultContent.innerHTML = `<p>${message}</p>`;
+        function showResult(message, warnings = []) {
+            const warningHtml = warnings.length
+                ? `<div class="validation-message active warning" style="display: block;">${escapeHtml(warnings.map((warning) => `Warning: ${warning}`).join("\n"))}</div>`
+                : "";
+            resultContent.innerHTML = `<p>${message}</p>${warningHtml}`;
             resultDiv.classList.add("active");
         }
 
