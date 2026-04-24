@@ -9,27 +9,19 @@
 
 ## Description
 
-**LigandHub** is a browser-based frontend for molecular docking workflows. It currently supports two core tasks: preparing small-molecule structures for docking and recovering docked ligand outputs from docking result files. Users can submit **SMILES strings** or upload structure files for ligand preparation, choose hydrogen handling and charge model settings, and upload docking result files to recover docked poses as **SDF**.
+**LigandHub** is a browser-based frontend for molecular docking workflows. It supports three main tasks: single-ligand preparation, batch ligand preparation, and recovery of docked ligand outputs from docking result files. Users can submit **SMILES** strings or structure files for individual preparation, upload text-based SMILES libraries for batch processing, choose hydrogen handling and charge model settings, and upload docking result files to recover docked poses as **SDF**.
 
-The frontend is responsible for collecting user input, validating basic input presence, building the `FormData` request, calling the backend API, displaying service status and error messages, and downloading the generated output files. The preparation form currently sends `output_format`, `merge_h`, and `charge_model` parameters to the backend. This repository contains the **frontend** of the project:
+The frontend handles input collection, basic validation, `FormData` construction, backend communication, service-status display, prototype-limit visibility, error handling, and output download. This repository contains the **frontend** of the project:
 
 ```bash
 https://NanoBiostructuresRG.github.io/LigandHub
 ```
 
-## What LigandHub Does
-
-**LigandHub** is a browser-based frontend for submitting molecular docking inputs and recovering docking outputs through a backend service. Users can either enter a ligand as a **SMILES string** or upload a molecular structure file in formats such as `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, or `.txt`. During ligand preparation, the frontend also lets the user choose hydrogen handling and the partial-charge model before sending the request to the backend API, which returns a **PDBQT** file intended for **AutoDock / Vina** workflows.
-
-LigandHub also supports recovery of docked ligand coordinates from docking result files in `.pdbqt` and `.dlg` formats. These are sent to the backend API and returned as **SDF** files for downstream inspection, analysis, or visualization.
-
-LigandHub does not perform chemical preparation or docking result conversion locally in the browser. It connects to a backend service deployed on **Render.com**, which handles molecular processing, file conversion, and output generation.
-
 ## How the Frontend Works
 
-The frontend currently provides two workflows:
+The frontend currently provides three workflows:
 
-### Ligand Preparation
+### Single Ligand Preparation
 
 1. The user chooses an input method: file upload or direct SMILES input.
 2. The user selects hydrogen handling and a charge model.
@@ -39,6 +31,17 @@ The frontend currently provides two workflows:
 6. The backend processes the ligand and generates a **PDBQT** file.
 7. The backend returns the generated file to the frontend.
 8. The frontend triggers the download of the prepared ligand file.
+
+### Batch Ligand Preparation
+
+1. The user switches to **Batch ligand preparation** in the preparation view.
+2. The frontend loads active prototype limits from `GET /limits` when the page opens.
+3. The user uploads a `.smi`, `.smiles`, or `.txt` library file in `SMILES ligand_id` format.
+4. The frontend validates the file extension and, when limits are available, checks the file size against `batch_upload_max_bytes`.
+5. The selected file is added to a `FormData` request together with `filename`, `merge_h`, and `charge_model`.
+6. The request is sent to `POST /prepare_ligand_batch`.
+7. The backend processes the library and returns a **ZIP** archive containing multiple prepared `.pdbqt` files plus `summary.json`.
+8. The frontend triggers the download of the batch archive and surfaces backend guidance when prototype limits are exceeded.
 
 ### Docking Result Recovery
 
@@ -50,35 +53,49 @@ The frontend currently provides two workflows:
 6. The backend returns the recovered structure as an **SDF** file.
 7. The frontend triggers the download of the recovered docking output.
 
-## Current Features
+## Features
 
 - Browser-based interface
 - Tabbed workflow for multiple docking tools
+- Sub-mode switcher for individual vs batch ligand preparation
 - Direct SMILES input
 - Ligand file upload support
-- Hydrogen handling selection for ligand preparation
+- Batch ligand library upload support
+- Dedicated preparation settings section for hydrogen handling and charge model selection
 - Charge model selection for ligand preparation: `gasteiger`, `nagl`, `espaloma`, `zero`
 - Docking result upload support
 - Supported ligand input formats: `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, `.txt`
+- Supported batch input formats: `.smi`, `.smiles`, `.txt`
 - Supported docking result formats: `.pdbqt`, `.dlg`
 - Service status check
+- Prototype limits panel loaded from `GET /limits`
 - Automatic **PDBQT** download after ligand preparation
+- Automatic **ZIP** download after batch ligand preparation
 - Automatic **SDF** download after docking result recovery
+- Structured batch error handling for backend `detail.message`, `detail.suggestion`, and `detail.limits`
 - GitHub Pages deployment
 
-For ligand preparation, the frontend expects the backend to return a **PDBQT** file, which is automatically downloaded by the browser. The output filename is derived from the input ligand name and includes a suffix indicating that the ligand has been processed for docking. The default UI configuration uses merged hydrogens and the `gasteiger` charge model, while also allowing `nagl`, `espaloma`, or `zero` as backend options.
+The frontend expects the backend to return:
+
+- a **PDBQT** file for single-ligand preparation
+- a **ZIP** archive for batch preparation
+- an **SDF** file for docking result recovery
+
+The batch input file must follow the format:
 
 ```bash
-smiles_input_prepared.pdbqt
+SMILES LIGAND_ID
 ```
 
-For docking result recovery, the frontend expects the backend to return an **SDF** file derived from the uploaded docking result file.
+Example:
 
 ```bash
-example_docked.sdf
+CCO ethanol
+CCN ethylamine
+c1ccccc1 benzene
 ```
 
-## Example SMILES
+## Example
 
 Writing a **SMILES** string such as `CCO`, which corresponds to ethanol, and submitting it to the backend should return a **PDBQT** file generated from that input.
 
@@ -107,13 +124,54 @@ TORSDOF 1
 
 The returned file includes the original SMILES annotation, atom records, partial charges according to the selected charge model, AutoDock atom types, rotatable bond information, and the final **TORSDOF** value used by AutoDock/Vina.
 
-## Current Limitations
+## Prototype Limits
+
+The current LigandHub-API deployment runs as a **prototype on Render**. The frontend calls `GET /limits` and surfaces the active backend limits for batch processing directly in the UI. Depending on backend configuration, these may include:
+
+- maximum batch upload size
+- maximum molecules per file
+- maximum scrubbed states per ligand
+- maximum generated `.pdbqt` files
+- maximum total generated size before the ZIP response
+
+If the frontend can load these limits, it validates the batch file size before upload. If the file exceeds `batch_upload_max_bytes`, the request is blocked locally and the UI asks the user to split the library into smaller batch files. If limits cannot be loaded, the batch request is still allowed and the backend performs validation.
+
+When the backend rejects a batch job using a structured error payload, the frontend displays:
+
+- `detail.message` as the main error
+- `detail.suggestion` as a visible recommendation
+- `detail.limits` as an additional prototype-limits block
+
+## Limitations
 
 - receptor preparation is not yet available in the frontend
 - no ligand preview is shown before download
 - no docking pose preview is shown before download
-- no batch processing yet
 - no advanced validation of molecular chemistry or docking file content is performed in the browser
+
+## Testing the Frontend
+
+### Test Individual Preparation
+
+1. Open the frontend and keep **Ligand preparation** selected.
+2. Choose either **Upload file** or **Enter SMILES**.
+3. Submit a simple ligand such as `CCO`.
+4. Confirm that the request goes to `POST /prepare_ligand` and that a `.pdbqt` file is downloaded.
+
+### Test Batch Preparation Success
+
+1. Switch to **Batch ligand preparation**.
+2. Confirm that the **Batch processing limits** panel loads data from `GET /limits`.
+3. Upload a small `.smi`, `.smiles`, or `.txt` file using the format `SMILES ligand_id`.
+4. Submit the batch form and confirm that the request goes to `POST /prepare_ligand_batch`.
+5. Verify that a ZIP file is downloaded and contains prepared `.pdbqt` files plus `summary.json`.
+
+### Test Batch Limit Errors
+
+1. Load the frontend until the limits panel has been populated.
+2. Try a file larger than `batch_upload_max_bytes` to trigger frontend validation.
+3. Confirm that the UI blocks submission and asks you to split the library into smaller files.
+4. Try a backend-rejected file, for example one exceeding the molecule-count limit, and confirm that the UI shows `detail.message`, `detail.suggestion`, and any returned `detail.limits`.
 
 ## Future Improvements
 
