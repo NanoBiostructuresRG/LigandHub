@@ -9,9 +9,9 @@
 
 ## Description
 
-**LigandHub** is a browser-based frontend for molecular docking workflows. It currently supports two core tasks: preparing small-molecule structures for docking and recovering docked ligand outputs from docking result files. Users can submit **SMILES strings** or upload structure files for ligand preparation, and can also upload docking result files to recover docked poses as **SDF**.
+**LigandHub** is a browser-based frontend for molecular docking workflows. It currently supports two core tasks: preparing small-molecule structures for docking and recovering docked ligand outputs from docking result files. Users can submit **SMILES strings** or upload structure files for ligand preparation, choose hydrogen handling and charge model settings, and upload docking result files to recover docked poses as **SDF**.
 
-The frontend is responsible for collecting user input, validating basic input presence, building the `FormData` request, calling the backend API, displaying service status and error messages, and downloading the generated output files. This repository contains the **frontend** of the project:
+The frontend is responsible for collecting user input, validating basic input presence, building the `FormData` request, calling the backend API, displaying service status and error messages, and downloading the generated output files. The preparation form currently sends `output_format`, `merge_h`, and `charge_model` parameters to the backend. This repository contains the **frontend** of the project:
 
 ```bash
 https://NanoBiostructuresRG.github.io/LigandHub
@@ -19,7 +19,7 @@ https://NanoBiostructuresRG.github.io/LigandHub
 
 ## What LigandHub Does
 
-**LigandHub** is a browser-based frontend for submitting molecular docking inputs and recovering docking outputs through a backend service. Users can either enter a ligand as a **SMILES string** or upload a molecular structure file in formats such as `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, or `.txt`. The frontend sends the submitted structure to a backend API, where ligand preparation is performed, and receives a **PDBQT** file intended for **AutoDock / Vina** workflows.
+**LigandHub** is a browser-based frontend for submitting molecular docking inputs and recovering docking outputs through a backend service. Users can either enter a ligand as a **SMILES string** or upload a molecular structure file in formats such as `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, or `.txt`. During ligand preparation, the frontend also lets the user choose hydrogen handling and the partial-charge model before sending the request to the backend API, which returns a **PDBQT** file intended for **AutoDock / Vina** workflows.
 
 LigandHub also supports recovery of docked ligand coordinates from docking result files in `.pdbqt` and `.dlg` formats. These are sent to the backend API and returned as **SDF** files for downstream inspection, analysis, or visualization.
 
@@ -32,12 +32,13 @@ The frontend currently provides two workflows:
 ### Ligand Preparation
 
 1. The user chooses an input method: file upload or direct SMILES input.
-2. The frontend checks that the required input is present.
-3. The selected file or SMILES string is added to a `FormData` request.
-4. The request is sent to the backend API using `fetch()`.
-5. The backend processes the ligand and generates a **PDBQT** file.
-6. The backend returns the generated file to the frontend.
-7. The frontend triggers the download of the prepared ligand file.
+2. The user selects hydrogen handling and a charge model.
+3. The frontend checks that the required input is present.
+4. The selected file or SMILES string is added to a `FormData` request.
+5. The frontend sends `output_format="pdbqt"`, `merge_h`, and `charge_model` to the backend API using `fetch()`.
+6. The backend processes the ligand and generates a **PDBQT** file.
+7. The backend returns the generated file to the frontend.
+8. The frontend triggers the download of the prepared ligand file.
 
 ### Docking Result Recovery
 
@@ -55,6 +56,8 @@ The frontend currently provides two workflows:
 - Tabbed workflow for multiple docking tools
 - Direct SMILES input
 - Ligand file upload support
+- Hydrogen handling selection for ligand preparation
+- Charge model selection for ligand preparation: `gasteiger`, `nagl`, `espaloma`, `zero`
 - Docking result upload support
 - Supported ligand input formats: `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, `.txt`
 - Supported docking result formats: `.pdbqt`, `.dlg`
@@ -63,7 +66,7 @@ The frontend currently provides two workflows:
 - Automatic **SDF** download after docking result recovery
 - GitHub Pages deployment
 
-For ligand preparation, the frontend expects the backend to return a **PDBQT** file, which is automatically downloaded by the browser. The output filename is derived from the input ligand name and includes a suffix indicating that the ligand has been processed for docking.
+For ligand preparation, the frontend expects the backend to return a **PDBQT** file, which is automatically downloaded by the browser. The output filename is derived from the input ligand name and includes a suffix indicating that the ligand has been processed for docking. The default UI configuration uses merged hydrogens and the `gasteiger` charge model, while also allowing `nagl`, `espaloma`, or `zero` as backend options.
 
 ```bash
 smiles_input_prepared.pdbqt
@@ -102,7 +105,7 @@ ENDBRANCH   2   3
 TORSDOF 1
 ```
 
-The returned file includes the original SMILES annotation, atom records, partial charges, AutoDock atom types, rotatable bond information, and the final **TORSDOF** value used by AutoDock/Vina.
+The returned file includes the original SMILES annotation, atom records, partial charges according to the selected charge model, AutoDock atom types, rotatable bond information, and the final **TORSDOF** value used by AutoDock/Vina.
 
 ## Current Limitations
 
