@@ -1,62 +1,79 @@
 # LigandHub
-**Version 0.0.1 - April, 2026. Monterrey**
+**Version v0.1.0 - April, 2026. Monterrey**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-
-[![Version](https://img.shields.io/badge/version-v0.1-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
 
 ---
 
 ## Description
 
-**LigandHub** is a browser-based frontend for preparing small-molecule ligands for molecular docking. It provides a simple interface to submit **SMILES strings** or upload structure files, sends them to the backend API, and downloads a ready-to-use **PDBQT** file for docking workflows. 
+**LigandHub** is a browser-based frontend for molecular docking workflows. It currently supports two core tasks: preparing small-molecule structures for docking and recovering docked ligand outputs from docking result files. Users can submit **SMILES strings** or upload structure files for ligand preparation, and can also upload docking result files to recover docked poses as **SDF**.
 
-The frontend is responsible for collecting user input, validating basic input presence, building the `FormData` request, calling the backend API, displaying status and error messages, and downloading the generated ligand file. This repository contains the **frontend** of the project: 
+The frontend is responsible for collecting user input, validating basic input presence, building the `FormData` request, calling the backend API, displaying service status and error messages, and downloading the generated output files. This repository contains the **frontend** of the project:
 
 ```bash
 https://NanoBiostructuresRG.github.io/LigandHub
 ```
 
-
-
 ## What LigandHub Does
 
-**LigandHub** is a browser-based frontend for submitting small-molecule ligand inputs to a backend preparation service. Users can either enter a ligand as a **SMILES string** or upload a molecular structure file in formats such as `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, or `.txt`. The frontend sends the submitted ligand to a backend API, where ligand preparation is performed, and receives a **PDBQT** file intended for **AutoDock / Vina** docking workflows.
+**LigandHub** is a browser-based frontend for submitting molecular docking inputs and recovering docking outputs through a backend service. Users can either enter a ligand as a **SMILES string** or upload a molecular structure file in formats such as `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, or `.txt`. The frontend sends the submitted structure to a backend API, where ligand preparation is performed, and receives a **PDBQT** file intended for **AutoDock / Vina** workflows.
 
-LigandHub does not perform chemical preparation locally in the browser. It connects to a backend service deployed on **Render.com**, which handles molecular processing and PDBQT file generation.
+LigandHub also supports recovery of docked ligand coordinates from docking result files in `.pdbqt` and `.dlg` formats. These are sent to the backend API and returned as **SDF** files for downstream inspection, analysis, or visualization.
 
+LigandHub does not perform chemical preparation or docking result conversion locally in the browser. It connects to a backend service deployed on **Render.com**, which handles molecular processing, file conversion, and output generation.
 
 ## How the Frontend Works
 
-The frontend workflow is organized as follows:
+The frontend currently provides two workflows:
+
+### Ligand Preparation
 
 1. The user chooses an input method: file upload or direct SMILES input.
 2. The frontend checks that the required input is present.
 3. The selected file or SMILES string is added to a `FormData` request.
 4. The request is sent to the backend API using `fetch()`.
-5. The backend processes the ligand and generates a PDBQT file.
+5. The backend processes the ligand and generates a **PDBQT** file.
 6. The backend returns the generated file to the frontend.
 7. The frontend triggers the download of the prepared ligand file.
 
+### Docking Result Recovery
+
+1. The user selects a docking result file in `.pdbqt` or `.dlg` format.
+2. The frontend checks that the file is present.
+3. The selected file is added to a `FormData` request.
+4. The request is sent to the backend API using `fetch()`.
+5. The backend extracts or reconstructs the docked ligand coordinates.
+6. The backend returns the recovered structure as an **SDF** file.
+7. The frontend triggers the download of the recovered docking output.
 
 ## Current Features
 
 - Browser-based interface
+- Tabbed workflow for multiple docking tools
 - Direct SMILES input
 - Ligand file upload support
-- Supported input formats: `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, `.txt`
-- Backend connection status check
-- Automatic PDBQT download after backend processing
+- Docking result upload support
+- Supported ligand input formats: `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, `.txt`
+- Supported docking result formats: `.pdbqt`, `.dlg`
+- Service status check
+- Automatic **PDBQT** download after ligand preparation
+- Automatic **SDF** download after docking result recovery
 - GitHub Pages deployment
 
-
-The frontend currently expects the backend to return a **PDBQT** file, which is automatically downloaded by the browser. The output filename is derived from the input ligand name and includes a suffix indicating that the ligand has been processed for docking.
+For ligand preparation, the frontend expects the backend to return a **PDBQT** file, which is automatically downloaded by the browser. The output filename is derived from the input ligand name and includes a suffix indicating that the ligand has been processed for docking.
 
 ```bash
 smiles_input_prepared.pdbqt
 ```
 
+For docking result recovery, the frontend expects the backend to return an **SDF** file derived from the uploaded docking result file.
+
+```bash
+example_docked.sdf
+```
 
 ## Example SMILES
 
@@ -75,8 +92,8 @@ REMARK SMILES CCO
 REMARK SMILES IDX 1 1 2 2 3 3
 REMARK H PARENT 3 4
 ROOT
-ATOM      1  C   UNL     1      -0.888   0.167  -0.027  1.00  0.00     0.034 C 
-ATOM      2  C   UNL     1       0.466  -0.512  -0.037  1.00  0.00     0.152 C 
+ATOM      1  C   UNL     1      -0.888   0.167  -0.027  1.00  0.00     0.034 C
+ATOM      2  C   UNL     1       0.466  -0.512  -0.037  1.00  0.00     0.152 C
 ENDROOT
 BRANCH   2   3
 ATOM      3  O   UNL     1       1.431   0.323   0.587  1.00  0.00    -0.397 OA
@@ -87,35 +104,33 @@ TORSDOF 1
 
 The returned file includes the original SMILES annotation, atom records, partial charges, AutoDock atom types, rotatable bond information, and the final **TORSDOF** value used by AutoDock/Vina.
 
-
 ## Current Limitations
 
-- frontend output option is currently limited to **PDBQT**
+- receptor preparation is not yet available in the frontend
 - no ligand preview is shown before download
+- no docking pose preview is shown before download
 - no batch processing yet
-- no advanced validation of molecular chemistry is performed in the browser
-
-
+- no advanced validation of molecular chemistry or docking file content is performed in the browser
 
 ## Future Improvements
 
 Possible frontend extensions include:
 
 - ligand preview panel
+- receptor preparation workflow
 - drag-and-drop file upload
 - downloadable preparation report
 - atom-count summary
 - charge and torsion summary
+- docking output preview
 - improved user guidance for supported formats
 - mobile UI refinements
-
-
 
 ---
 
 ## Authors
 
-[Flavio F. Contreras-Torres](https://orcid.org/0000-0003-2375-131X). Tecnológico de Monterrey.
+[Flavio F. Contreras-Torres](https://orcid.org/0000-0003-2375-131X). Tecnologico de Monterrey.
 
 ---
 
@@ -138,7 +153,6 @@ LigandHub also uses or interfaces with third-party open-source software. See the
 ### Attribution
 
 If you use, adapt, or redistribute this material, please provide appropriate credit to the original author, [FFCT](https://orcid.org/0000-0003-2375-131X), and cite or link to the LigandHub repository [https://github.com/NanoBiostructuresRG/LigandHub](https://github.com/NanoBiostructuresRG/LigandHub).
-
 
 ### Contact
 
