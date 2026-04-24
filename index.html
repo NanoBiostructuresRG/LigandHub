@@ -580,7 +580,7 @@
             </div>
 
             <section class="tool-panel active" id="preparePanel" role="tabpanel" aria-labelledby="toolTabPrepare">
-                <p class="tool-panel-intro">Upload a ligand file or paste a SMILES string to prepare a docking-ready <code>PDBQT</code> structure.</p>
+                <p class="tool-panel-intro">Upload a ligand file or enter a SMILES string to generate a docking-ready <code>PDBQT</code> structure.</p>
 
                 <div class="input-group">
                     <label>Input method:</label>
@@ -609,7 +609,7 @@
                 <div class="input-group">
                     <label>Output</label>
                     <div class="info" style="margin-top: 8px;">
-                        <strong>PDBQT</strong> for AutoDock and Vina workflows.
+                        <strong>PDBQT</strong> format for AutoDock and Vina workflows.
                     </div>
                 </div>
 
@@ -618,17 +618,42 @@
                     <div class="radio-group">
                         <label for="hydrogenHandlingMerge">
                             <input type="radio" id="hydrogenHandlingMerge" name="hydrogenHandling" value="merge" checked>
-                            Merge hydrogens (default for AutoDock)
+                            Merge hydrogens (recommended)
                         </label>
                         <label for="hydrogenHandlingKeep">
                             <input type="radio" id="hydrogenHandlingKeep" name="hydrogenHandling" value="keep">
                             Keep hydrogens separate
                         </label>
                     </div>
-                    <div class="info tool-note" style="font-size: 12px;">
-                        <strong>Tip:</strong> Merge hydrogens for the default AutoDock Vina workflow. Keep them separate only
-                        if you explicitly need hydrogen atoms in the exported structure.
+                </div>
+
+                <div class="input-group">
+                    <label>Charge model:</label>
+                    <div class="radio-group">
+                        <label for="chargeModelGasteiger">
+                            <input type="radio" id="chargeModelGasteiger" name="chargeModel" value="gasteiger" checked>
+                            Gasteiger (default)
+                        </label>
+                        <label for="chargeModelNagl">
+                            <input type="radio" id="chargeModelNagl" name="chargeModel" value="nagl">
+                            Nagl (neural network)
+                        </label>
+                        <label for="chargeModelEspaloma">
+                            <input type="radio" id="chargeModelEspaloma" name="chargeModel" value="espaloma">
+                            Espaloma (deep learning)
+                        </label>
+                        <label for="chargeModelZero">
+                            <input type="radio" id="chargeModelZero" name="chargeModel" value="zero">
+                            Zero (no charges)
+                        </label>
                     </div>
+                </div>
+
+                <div class="info tool-note" style="font-size: 12px;">
+                    <strong>Notes:</strong> Use merged hydrogens for standard AutoDock and Vina workflows. Keep hydrogens
+                    separate only if your downstream analysis requires them. Gasteiger is the default charge model; Nagl
+                    and Espaloma may improve charge assignment for more complex ligands, but can increase processing time.
+                    Zero assigns partial charges of 0 to all atoms.
                 </div>
 
                 <button class="btn" id="processBtn">Prepare Ligand</button>
@@ -649,12 +674,7 @@
             </section>
 
             <section class="tool-panel" id="convertPanel" role="tabpanel" aria-labelledby="toolTabConvert">
-                <p class="tool-panel-intro">Upload a docking output file to recover the docked ligand geometry as an <code>SDF</code> file.</p>
-
-                <div class="info tool-note" style="font-size: 12px;">
-                    <strong>Tip:</strong> Use <code>PDBQT</code> for a direct docked pose export, or <code>DLG</code> if your run
-                    was saved as an AutoDock log file.
-                </div>
+                <p class="tool-panel-intro">Upload a docking output file to recover the docked ligand geometry as an <code>SDF</code> file. Use <code>PDBQT</code> for direct pose export or <code>DLG</code> for AutoDock log outputs.</p>
 
                 <div class="input-group">
                     <label for="dockingResultFile">Upload docking result (PDBQT or DLG)</label>
@@ -814,6 +834,7 @@
 
             const inputType = document.querySelector('input[name="inputType"]:checked').value;
             const hydrogenHandling = document.querySelector('input[name="hydrogenHandling"]:checked').value;
+            const chargeModel = document.querySelector('input[name="chargeModel"]:checked').value;
             const mergeH = hydrogenHandling === "merge";
 
             let ligandData = null;
@@ -854,6 +875,7 @@
             formData.append("filename", filename);
             formData.append("output_format", "pdbqt");
             formData.append("merge_h", mergeH.toString());
+            formData.append("charge_model", chargeModel);
 
             try {
                 const response = await fetch(`${BACKEND_URL}/prepare_ligand`, {
