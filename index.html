@@ -414,6 +414,10 @@
             padding: 14px;
         }
 
+        .option-section-wide {
+            grid-column: 1 / -1;
+        }
+
         .option-section h4 {
             font-size: 14px;
             color: #334155;
@@ -430,6 +434,104 @@
         .option-list {
             display: grid;
             gap: 10px;
+        }
+
+        .minimization-settings {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 160px;
+            gap: 12px;
+            align-items: end;
+            border: 1px solid #dbe4ff;
+            border-radius: 12px;
+            padding: 10px;
+            background: #f8faff;
+        }
+
+        .option-section-wide .minimization-settings {
+            grid-template-columns: minmax(0, 1fr) 160px;
+        }
+
+        .segmented-options {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding: 3px;
+            border: 1px solid #dbe4ff;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .segmented-option {
+            position: relative;
+        }
+
+        .segmented-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .segmented-option label {
+            display: block;
+            min-height: 44px;
+            border: 1px solid transparent;
+            border-radius: 9px;
+            padding: 11px 12px;
+            background: transparent;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s, transform 0.2s;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .segmented-option label:hover {
+            border-color: #a5b4fc;
+            transform: translateY(-1px);
+        }
+
+        .segmented-option input:checked + label {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
+            box-shadow: 0 8px 18px rgba(102, 126, 234, 0.12);
+        }
+
+        .minimization-iterations {
+            display: grid;
+            gap: 6px;
+            align-content: start;
+            background: transparent;
+        }
+
+        .minimization-iterations label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .minimization-iterations input {
+            width: 100%;
+            border: 1px solid #dbe4ff;
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            background: #ffffff;
+            text-align: center;
+        }
+
+        .minimization-iterations input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+        }
+
+        .minimization-iterations input:disabled {
+            background: #f1f5f9;
+            color: #94a3b8;
+            cursor: not-allowed;
         }
 
         .option-item {
@@ -772,6 +874,18 @@
             .error-limits-list {
                 grid-template-columns: 1fr;
             }
+
+            .option-section-wide .minimization-settings {
+                grid-template-columns: 1fr;
+            }
+
+            .segmented-options {
+                grid-template-columns: 1fr;
+            }
+
+            .segmented-option label {
+                min-height: 0;
+            }
         }
     </style>
 </head>
@@ -1014,6 +1128,37 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="option-section option-section-wide">
+                                <h4>Energy minimization</h4>
+                                <p>Auto follows the backend default behavior, minimizing generated or 2D inputs while preserving uploaded 3D geometries. On applies energy minimization to all inputs using MMFF94, with UFF as a fallback.</p>
+                                <div class="minimization-settings">
+                                    <div class="segmented-options" role="radiogroup" aria-label="Energy minimization mode">
+                                        <div class="segmented-option">
+                                            <input type="radio" id="energyMinimizationAuto" name="energyMinimization" value="auto" checked>
+                                            <label for="energyMinimizationAuto">
+                                                <span class="option-title">Auto</span>
+                                            </label>
+                                        </div>
+                                        <div class="segmented-option">
+                                            <input type="radio" id="energyMinimizationOn" name="energyMinimization" value="on">
+                                            <label for="energyMinimizationOn">
+                                                <span class="option-title">On</span>
+                                            </label>
+                                        </div>
+                                        <div class="segmented-option">
+                                            <input type="radio" id="energyMinimizationOff" name="energyMinimization" value="off">
+                                            <label for="energyMinimizationOff">
+                                                <span class="option-title">Off</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="minimization-iterations">
+                                        <label for="minimizationMaxIters">Max iterations</label>
+                                        <input type="text" id="minimizationMaxIters" maxlength="4" value="100" inputmode="numeric" pattern="[0-9]*" disabled>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1124,6 +1269,37 @@
                                             <span class="option-title">Zero</span>
                                             <span class="option-copy">Assign zero partial charges to all atoms in the batch.</span>
                                         </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="option-section option-section-wide">
+                                <h4>Energy minimization</h4>
+                                <p>Auto follows the backend default behavior for generated ligands. On applies energy minimization across the batch using MMFF94, with UFF as a fallback.</p>
+                                <div class="minimization-settings">
+                                    <div class="segmented-options" role="radiogroup" aria-label="Batch energy minimization mode">
+                                        <div class="segmented-option">
+                                            <input type="radio" id="batchEnergyMinimizationAuto" name="batchEnergyMinimization" value="auto" checked>
+                                            <label for="batchEnergyMinimizationAuto">
+                                                <span class="option-title">Auto</span>
+                                            </label>
+                                        </div>
+                                        <div class="segmented-option">
+                                            <input type="radio" id="batchEnergyMinimizationOn" name="batchEnergyMinimization" value="on">
+                                            <label for="batchEnergyMinimizationOn">
+                                                <span class="option-title">On</span>
+                                            </label>
+                                        </div>
+                                        <div class="segmented-option">
+                                            <input type="radio" id="batchEnergyMinimizationOff" name="batchEnergyMinimization" value="off">
+                                            <label for="batchEnergyMinimizationOff">
+                                                <span class="option-title">Off</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="minimization-iterations">
+                                        <label for="batchMinimizationMaxIters">Max iterations</label>
+                                        <input type="text" id="batchMinimizationMaxIters" maxlength="4" value="100" inputmode="numeric" pattern="[0-9]*" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -1590,6 +1766,86 @@
             validationResult.textContent = "";
         }
 
+        function constrainMinimizationIterations(input) {
+            const digits = input.value.replace(/\D/g, "").slice(0, 4);
+            const value = Number(digits);
+
+            if (digits && value > 2000) {
+                input.value = "2000";
+                return;
+            }
+
+            input.value = digits;
+        }
+
+        function syncMinimizationIterationsState(modeInputName, iterationsInputId) {
+            const mode = document.querySelector(`input[name="${modeInputName}"]:checked`)?.value || "auto";
+            const iterationsInput = document.getElementById(iterationsInputId);
+
+            if (!iterationsInput) {
+                return;
+            }
+
+            iterationsInput.disabled = mode !== "on";
+        }
+
+        function setupMinimizationControls(modeInputName, iterationsInputId) {
+            document.querySelectorAll(`input[name="${modeInputName}"]`).forEach((input) => {
+                input.addEventListener("change", () => {
+                    syncMinimizationIterationsState(modeInputName, iterationsInputId);
+                });
+            });
+
+            syncMinimizationIterationsState(modeInputName, iterationsInputId);
+        }
+
+        document.querySelectorAll("#minimizationMaxIters, #batchMinimizationMaxIters").forEach((input) => {
+            input.addEventListener("input", () => constrainMinimizationIterations(input));
+            input.addEventListener("blur", () => {
+                if (input.value === "") {
+                    input.value = "100";
+                }
+            });
+        });
+
+        setupMinimizationControls("energyMinimization", "minimizationMaxIters");
+        setupMinimizationControls("batchEnergyMinimization", "batchMinimizationMaxIters");
+
+        function getMinimizationOptions(modeInputName, iterationsInputId) {
+            const mode = document.querySelector(`input[name="${modeInputName}"]:checked`)?.value || "auto";
+            const iterationsInput = document.getElementById(iterationsInputId);
+            const rawIterations = iterationsInput?.value.trim() || "";
+            const defaultIterations = "100";
+            const shouldSendIterations = mode === "on";
+
+            if (shouldSendIterations) {
+                const iterations = Number(rawIterations);
+                if (!Number.isInteger(iterations) || iterations < 1 || iterations > 2000) {
+                    return {
+                        error: "Minimization iterations must be a whole number between 1 and 2000."
+                    };
+                }
+            }
+
+            return {
+                mode,
+                iterations: rawIterations || defaultIterations,
+                shouldSendIterations
+            };
+        }
+
+        function appendMinimizationOptions(formData, options) {
+            if (options.mode === "on") {
+                formData.append("energy_minimization", "true");
+            } else if (options.mode === "off") {
+                formData.append("energy_minimization", "false");
+            }
+
+            if (options.shouldSendIterations) {
+                formData.append("minimization_max_iters", String(Number(options.iterations)));
+            }
+        }
+
         async function handleValidateSmiles({ allowUnavailable = false } = {}) {
             const smiles = smilesInput.value.trim();
             if (!smiles) {
@@ -1657,6 +1913,12 @@
             const hydrogenHandling = document.querySelector('input[name="hydrogenHandling"]:checked').value;
             const chargeModel = document.querySelector('input[name="chargeModel"]:checked').value;
             const mergeH = hydrogenHandling === "merge";
+            const minimizationOptions = getMinimizationOptions("energyMinimization", "minimizationMaxIters");
+
+            if (minimizationOptions.error) {
+                showError(minimizationOptions.error);
+                return;
+            }
 
             let ligandData = null;
             let filename = "ligand";
@@ -1703,6 +1965,7 @@
             formData.append("output_format", "pdbqt");
             formData.append("merge_h", mergeH.toString());
             formData.append("charge_model", chargeModel);
+            appendMinimizationOptions(formData, minimizationOptions);
 
             try {
                 const response = await fetch(`${BACKEND_URL}/prepare_ligand`, {
@@ -1802,12 +2065,19 @@
             const chargeModel = document.querySelector('input[name="batchChargeModel"]:checked').value;
             const hydrogenHandling = document.querySelector('input[name="batchHydrogenHandling"]:checked').value;
             const mergeH = hydrogenHandling === "merge";
+            const minimizationOptions = getMinimizationOptions("batchEnergyMinimization", "batchMinimizationMaxIters");
+
+            if (minimizationOptions.error) {
+                showBatchError({ message: minimizationOptions.error });
+                return;
+            }
 
             const formData = new FormData();
             formData.append("file", file);
             formData.append("filename", file.name.replace(/\.[^.]+$/, "") || "ligands_batch");
             formData.append("merge_h", String(mergeH));
             formData.append("charge_model", chargeModel);
+            appendMinimizationOptions(formData, minimizationOptions);
 
             batchProcessBtn.disabled = true;
             batchProgress.classList.add("active");
