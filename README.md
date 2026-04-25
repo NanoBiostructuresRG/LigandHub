@@ -24,10 +24,10 @@ The frontend currently provides three workflows:
 ### Single Ligand Preparation
 
 1. The user chooses an input method: file upload or direct SMILES input.
-2. The user selects hydrogen handling and a charge model.
+2. The user selects hydrogen handling, a charge model, and optional energy-minimization settings.
 3. The frontend checks that the required input is present.
 4. The selected file or SMILES string is added to a `FormData` request.
-5. The frontend sends `output_format="pdbqt"`, `merge_h`, and `charge_model` to the backend API using `fetch()`.
+5. The frontend sends `output_format="pdbqt"`, `merge_h`, `charge_model`, and optional `energy_minimization` / `minimization_max_iters` fields to the backend API using `fetch()`.
 6. The backend processes the ligand and generates a **PDBQT** file.
 7. The backend returns the generated file to the frontend.
 8. The frontend triggers the download of the prepared ligand file.
@@ -38,7 +38,7 @@ The frontend currently provides three workflows:
 2. The frontend loads active prototype limits from `GET /limits` when the page opens.
 3. The user uploads a `.smi`, `.smiles`, or `.txt` library file in `SMILES ligand_id` format.
 4. The frontend validates the file extension and, when limits are available, checks the file size against `batch_upload_max_bytes`.
-5. The selected file is added to a `FormData` request together with `filename`, `merge_h`, and `charge_model`.
+5. The selected file is added to a `FormData` request together with `filename`, `merge_h`, `charge_model`, and optional `energy_minimization` / `minimization_max_iters` fields.
 6. The request is sent to `POST /prepare_ligand_batch`.
 7. The backend processes the library and returns a **ZIP** archive containing multiple prepared `.pdbqt` files plus `summary.json`.
 8. The frontend triggers the download of the batch archive and surfaces backend guidance when prototype limits are exceeded.
@@ -63,6 +63,8 @@ The frontend currently provides three workflows:
 - Batch ligand library upload support
 - Dedicated preparation settings section for hydrogen handling and charge model selection
 - Charge model selection for ligand preparation: `gasteiger`, `nagl`, `espaloma`, `zero`
+- Optional energy minimization mode for preparation: `Auto`, `On`, or `Off`
+- Optional minimization iteration override from 1 to 2000 iterations, with 100 shown by default
 - Docking result upload support
 - Supported ligand input formats: `.sdf`, `.mol2`, `.pdb`, `.smi`, `.smiles`, `.txt`
 - Supported batch input formats: `.smi`, `.smiles`, `.txt`
