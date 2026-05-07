@@ -1,9 +1,9 @@
 # LigandHub
-**Version dev-v0.1.1 - May, 2026. Monterrey**
+**Version v0.1.1 - May, 2026. Monterrey**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Version](https://img.shields.io/badge/version-dev--v0.1.1-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
+[![Version](https://img.shields.io/badge/version-v0.1.1-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
 
 ---
 
@@ -55,7 +55,7 @@ The frontend currently provides three workflows:
 
 ## Backend Compatibility
 
-Frontend `dev-v0.1.1` remains compatible with the deployed LigandHub-API backend at:
+Frontend `v0.1.1` remains compatible with the deployed LigandHub-API backend at:
 
 ```bash
 https://ligandhub-api.onrender.com

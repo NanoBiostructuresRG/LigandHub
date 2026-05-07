@@ -1,6 +1,6 @@
 # Changelog
 
-## dev-v0.1.1 - May 2026
+## v0.1.1 - May 2026
 
 - Frontend compatibility and documentation update.
 - Added the `filename` field to `POST /convert_pdbqt_to_sdf` requests.
