@@ -1963,6 +1963,7 @@
             const file = dockingResultFile.files[0];
             const formData = new FormData();
             formData.append("file", file);
+            formData.append("filename", file.name);
 
             convertBtn.disabled = true;
             convertProgress.classList.add("active");
