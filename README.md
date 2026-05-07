@@ -1,9 +1,9 @@
 # LigandHub
-**Version v0.1.1 - May, 2026. Monterrey**
+**Version dev-v0.1.2 - May, 2026. Monterrey**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Version](https://img.shields.io/badge/version-v0.1.1-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
+[![Version](https://img.shields.io/badge/version-dev--v0.1.2-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
 
 ---
 
@@ -55,7 +55,7 @@ The frontend currently provides three workflows:
 
 ## Backend Compatibility
 
-Frontend `v0.1.1` remains compatible with the deployed LigandHub-API backend at:
+Frontend `dev-v0.1.2` remains compatible with the deployed LigandHub-API backend at:
 
 ```bash
 https://ligandhub-api.onrender.com
@@ -71,6 +71,13 @@ The frontend expects the following backend endpoints:
 - `POST /convert_pdbqt_to_sdf`
 
 Requests to `POST /convert_pdbqt_to_sdf` send both `file` and `filename` fields.
+
+## Backend Configuration
+
+The frontend centralizes backend API configuration in `index.html` using `API_BASE_URL` and `API_ENDPOINTS`.
+`API_BASE_URL` points to the deployed LigandHub-API backend, and `API_ENDPOINTS` defines the supported backend routes used by `fetch()` calls.
+
+React migration is deferred for this version because it would introduce build tooling and GitHub Pages deployment changes. It can be considered in a future larger version such as `v0.2.0`.
 
 ## Features
 

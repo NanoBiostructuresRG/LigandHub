@@ -1352,7 +1352,15 @@
     </div>
 
     <script>
-        const BACKEND_URL = "https://ligandhub-api.onrender.com";
+        const API_BASE_URL = "https://ligandhub-api.onrender.com";
+        const API_ENDPOINTS = {
+            health: `${API_BASE_URL}/health`,
+            limits: `${API_BASE_URL}/limits`,
+            validate: `${API_BASE_URL}/validate`,
+            prepareLigand: `${API_BASE_URL}/prepare_ligand`,
+            prepareLigandBatch: `${API_BASE_URL}/prepare_ligand_batch`,
+            convertDockingResult: `${API_BASE_URL}/convert_pdbqt_to_sdf`
+        };
 
         const inputTypeRadios = document.querySelectorAll('input[name="inputType"]');
         const toolTabs = document.querySelectorAll(".tool-tab");
@@ -1453,7 +1461,7 @@
 
         async function checkBackendHealth() {
             try {
-                const response = await fetch(`${BACKEND_URL}/health`);
+                const response = await fetch(API_ENDPOINTS.health);
                 if (!response.ok) {
                     throw new Error("Backend unavailable");
                 }
@@ -1528,7 +1536,7 @@
 
         async function loadPrototypeLimits() {
             try {
-                const response = await fetch(`${BACKEND_URL}/limits`);
+                const response = await fetch(API_ENDPOINTS.limits);
                 if (!response.ok) {
                     throw new Error(`Request failed with status ${response.status}`);
                 }
@@ -1697,7 +1705,7 @@
         }
 
         async function validateSmiles(smiles) {
-            const response = await fetch(`${BACKEND_URL}/validate`, {
+            const response = await fetch(API_ENDPOINTS.validate, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -1927,7 +1935,7 @@
             appendMinimizationOptions(formData, minimizationOptions);
 
             try {
-                const response = await fetch(`${BACKEND_URL}/prepare_ligand`, {
+                const response = await fetch(API_ENDPOINTS.prepareLigand, {
                     method: "POST",
                     body: formData
                 });
@@ -1969,7 +1977,7 @@
             convertProgress.classList.add("active");
 
             try {
-                const response = await fetch(`${BACKEND_URL}/convert_pdbqt_to_sdf`, {
+                const response = await fetch(API_ENDPOINTS.convertDockingResult, {
                     method: "POST",
                     body: formData
                 });
@@ -2043,7 +2051,7 @@
             batchProgress.classList.add("active");
 
             try {
-                const response = await fetch(`${BACKEND_URL}/prepare_ligand_batch`, {
+                const response = await fetch(API_ENDPOINTS.prepareLigandBatch, {
                     method: "POST",
                     body: formData
                 });
