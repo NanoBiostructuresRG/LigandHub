@@ -1,9 +1,9 @@
 # LigandHub
-**Version v0.1.0 - April, 2026. Monterrey**
+**Version dev-v0.1.1 - May, 2026. Monterrey**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
+[![Version](https://img.shields.io/badge/version-dev--v0.1.1-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
 
 ---
 
@@ -47,11 +47,30 @@ The frontend currently provides three workflows:
 
 1. The user selects a docking result file in `.pdbqt` or `.dlg` format.
 2. The frontend checks that the file is present.
-3. The selected file is added to a `FormData` request.
+3. The selected file is added to a `FormData` request together with `filename`.
 4. The request is sent to the backend API using `fetch()`.
 5. The backend extracts or reconstructs the docked ligand coordinates.
 6. The backend returns the recovered structure as an **SDF** file.
 7. The frontend triggers the download of the recovered docking output.
+
+## Backend Compatibility
+
+Frontend `dev-v0.1.1` remains compatible with the deployed LigandHub-API backend at:
+
+```bash
+https://ligandhub-api.onrender.com
+```
+
+The frontend expects the following backend endpoints:
+
+- `GET /health`
+- `GET /limits`
+- `POST /validate`
+- `POST /prepare_ligand`
+- `POST /prepare_ligand_batch`
+- `POST /convert_pdbqt_to_sdf`
+
+Requests to `POST /convert_pdbqt_to_sdf` send both `file` and `filename` fields.
 
 ## Features
 
