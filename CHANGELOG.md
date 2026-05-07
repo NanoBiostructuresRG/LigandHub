@@ -1,5 +1,15 @@
 # Changelog
 
+## dev-v0.2.0 - May 2026
+
+- Migrated the frontend to React + Vite.
+- Added a modular frontend structure under `src/`.
+- Added a GitHub Actions workflow for Vite GitHub Pages deployment.
+- Configured the Vite base path for GitHub Pages project deployment.
+- Preserved the existing backend API contract.
+- No backend changes.
+- No new API behavior.
+
 ## dev-v0.1.2 - May 2026
 
 - Centralized backend API configuration in `index.html`.

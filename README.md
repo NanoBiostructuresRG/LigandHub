@@ -1,9 +1,9 @@
 # LigandHub
-**Version dev-v0.1.2 - May, 2026. Monterrey**
+**Version dev-v0.2.0 - May, 2026. Monterrey**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Version](https://img.shields.io/badge/version-dev--v0.1.2-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
+[![Version](https://img.shields.io/badge/version-dev--v0.2.0-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
 
 ---
 
@@ -11,7 +11,7 @@
 
 **LigandHub** is a browser-based frontend for molecular docking workflows. It supports three main tasks: single-ligand preparation, batch ligand preparation, and recovery of docked ligand outputs from docking result files. Users can submit **SMILES** strings or structure files for individual preparation, upload text-based SMILES libraries for batch processing, choose hydrogen handling and charge model settings, and upload docking result files to recover docked poses as **SDF**.
 
-The frontend handles input collection, basic validation, `FormData` construction, backend communication, service-status display, prototype-limit visibility, error handling, and output download. This repository contains the **frontend** of the project:
+The frontend handles input collection, basic validation, `FormData` construction, backend communication, service-status display, prototype-limit visibility, error handling, and output download. Starting with `dev-v0.2.0`, the frontend is migrated to React + Vite while preserving the existing backend API contract. This repository contains the **frontend** of the project:
 
 ```bash
 https://NanoBiostructuresRG.github.io/LigandHub
@@ -55,7 +55,7 @@ The frontend currently provides three workflows:
 
 ## Backend Compatibility
 
-Frontend `dev-v0.1.2` remains compatible with the deployed LigandHub-API backend at:
+Frontend `dev-v0.2.0` remains compatible with the deployed LigandHub-API backend at:
 
 ```bash
 https://ligandhub-api.onrender.com
@@ -74,10 +74,35 @@ Requests to `POST /convert_pdbqt_to_sdf` send both `file` and `filename` fields.
 
 ## Backend Configuration
 
-The frontend centralizes backend API configuration in `index.html` using `API_BASE_URL` and `API_ENDPOINTS`.
-`API_BASE_URL` points to the deployed LigandHub-API backend, and `API_ENDPOINTS` defines the supported backend routes used by `fetch()` calls.
+The frontend centralizes backend API configuration in `src/config/api.js` using `API_BASE_URL` and `API_ENDPOINTS`.
+`API_BASE_URL` remains `https://ligandhub-api.onrender.com`, and `API_ENDPOINTS` defines the supported backend routes used by service-layer `fetch()` calls.
 
-React migration is deferred for this version because it would introduce build tooling and GitHub Pages deployment changes. It can be considered in a future larger version such as `v0.2.0`.
+## Local Development
+
+The `dev-v0.2.0` frontend is built with React + Vite.
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+## Production Deployment
+
+GitHub Pages should use GitHub Actions as the deployment source. The workflow in `.github/workflows/deploy-pages.yml` builds the Vite app and deploys the generated `dist/` directory.
+
+Before publishing from this version, set the repository Pages source to:
+
+```bash
+Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+```
+
+The Vite base path is configured for the project site at:
+
+```bash
+https://NanoBiostructuresRG.github.io/LigandHub/
+```
 
 ## Features
 
@@ -101,7 +126,7 @@ React migration is deferred for this version because it would introduce build to
 - Automatic **ZIP** download after batch ligand preparation
 - Automatic **SDF** download after docking result recovery
 - Structured batch error handling for backend `detail.message`, `detail.suggestion`, and `detail.limits`
-- GitHub Pages deployment
+- GitHub Pages deployment through GitHub Actions for the Vite build output
 
 The frontend expects the backend to return:
 
