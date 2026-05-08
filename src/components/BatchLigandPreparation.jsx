@@ -67,6 +67,9 @@ export function BatchLigandPreparation({ limits, notes, serviceMode, limitsLoadi
         || "ligands_pdbqt_batch.zip";
       downloadBlob(blob, downloadName);
       setResult({ downloadName });
+      if (batchFileRef.current) {
+        batchFileRef.current.value = "";
+      }
     } catch (err) {
       if (err.errors || err.warnings) {
         showBatchError({

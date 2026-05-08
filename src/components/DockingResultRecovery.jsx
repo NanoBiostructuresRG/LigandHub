@@ -28,6 +28,9 @@ export function DockingResultRecovery() {
         || file.name.replace(/\.(pdbqt|dlg)$/i, "_docked.sdf");
       downloadBlob(blob, downloadName);
       setResultFile(file.name);
+      if (fileRef.current) {
+        fileRef.current.value = "";
+      }
     } catch (err) {
       setError(err.message || "Unexpected error");
     } finally {

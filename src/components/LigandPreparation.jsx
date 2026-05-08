@@ -123,6 +123,12 @@ export function LigandPreparation() {
       const downloadName = getContentDispositionFilename(response.headers.get("content-disposition")) || `${filename}_prepared.pdbqt`;
       downloadBlob(blob, downloadName);
       setResult({ message: "Your ligand has been processed successfully and the PDBQT file was downloaded.", warnings });
+      if (inputType === "file" && ligandFileRef.current) {
+        ligandFileRef.current.value = "";
+      } else if (inputType === "smiles") {
+        setSmiles("");
+        setValidation(null);
+      }
     } catch (err) {
       setError(err.message || "Unexpected error");
     } finally {
