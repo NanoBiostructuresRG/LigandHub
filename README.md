@@ -1,9 +1,9 @@
 # LigandHub
-**Version dev-v0.2.0 - May, 2026. Monterrey**
+**Version v0.2.0 - May, 2026. Monterrey**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Version](https://img.shields.io/badge/version-dev--v0.2.0-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
+[![Version](https://img.shields.io/badge/version-v0.2.0-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
 
 ---
 
@@ -11,7 +11,7 @@
 
 **LigandHub** is a browser-based frontend for molecular docking workflows. It supports three main tasks: single-ligand preparation, batch ligand preparation, and recovery of docked ligand outputs from docking result files. Users can submit **SMILES** strings or structure files for individual preparation, upload text-based SMILES libraries for batch processing, choose hydrogen handling and charge model settings, and upload docking result files to recover docked poses as **SDF**.
 
-The frontend handles input collection, basic validation, `FormData` construction, backend communication, service-status display, prototype-limit visibility, error handling, and output download. Starting with `dev-v0.2.0`, the frontend is migrated to React + Vite while preserving the existing backend API contract. This repository contains the **frontend** of the project:
+The frontend handles input collection, basic validation, `FormData` construction, backend communication, service-status display, prototype-limit visibility, error handling, and output download. Starting with `v0.2.0`, the frontend is migrated to React + Vite while preserving the existing backend API contract. This repository contains the **frontend** of the project:
 
 ```bash
 https://NanoBiostructuresRG.github.io/LigandHub
@@ -55,7 +55,7 @@ The frontend currently provides three workflows:
 
 ## Backend Compatibility
 
-Frontend `dev-v0.2.0` remains compatible with the deployed LigandHub-API backend at:
+Frontend `v0.2.0` remains compatible with the deployed LigandHub-API backend at:
 
 ```bash
 https://ligandhub-api.onrender.com
@@ -77,16 +77,31 @@ Requests to `POST /convert_pdbqt_to_sdf` send both `file` and `filename` fields.
 The frontend centralizes backend API configuration in `src/config/api.js` using `API_BASE_URL` and `API_ENDPOINTS`.
 `API_BASE_URL` remains `https://ligandhub-api.onrender.com`, and `API_ENDPOINTS` defines the supported backend routes used by service-layer `fetch()` calls.
 
+## Frontend Stack
+
+Frontend `v0.2.0` is the React + Vite frontend milestone. The dependency versions recorded in `package-lock.json` are:
+
+| Dependency | Version |
+| --- | --- |
+| React | 19.2.6 |
+| React DOM | 19.2.6 |
+| Vite | 7.3.3 |
+| @vitejs/plugin-react | 5.2.0 |
+
+The Vite build also installs its recorded transitive build/runtime dependencies, including `@babel/core` 7.29.0, `esbuild` 0.27.7, and `scheduler` 0.27.0.
+
 ## Local Development
 
-The `dev-v0.2.0` frontend is built with React + Vite.
+Node.js and npm are required for local development and production builds. Use `npm ci` to install the exact dependencies recorded in `package-lock.json`, or `npm install` during local development when updating dependencies.
 
 ```bash
-npm install
+npm ci
 npm run dev
 npm run build
 npm run preview
 ```
+
+`npm run build` creates the production build in `dist/`. The generated `dist/` directory is deployed through GitHub Actions and is not committed to the repository.
 
 ## Production Deployment
 
