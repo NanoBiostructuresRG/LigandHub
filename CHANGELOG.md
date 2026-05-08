@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.1 - May 2026
+
+- Added page-based navigation using React Router HashRouter.
+- Added Home, Molecular Datasets, Docking Tools, Feature Engineering, ADMET, and About pages.
+- Kept Docking Tools as a single application-level page.
+- Added post-success input reset behavior for Docking Tools workflows.
+- Preserved backend API contract.
+- No backend changes.
+- No API behavior changes.
+
 ## v0.2.0 - May 2026
 
 - Migrated the frontend to React + Vite.
