@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "LigandHub"
+version: "0.2.0"
+date-released: "2026-05-07"
+authors:
+  - family-names: "Contreras-Torres"
+    given-names: "Flavio F."
+    orcid: "https://orcid.org/0000-0003-2375-131X"
+    affiliation: "Tecnologico de Monterrey"
+repository-code: "https://github.com/NanoBiostructuresRG/LigandHub"
+url: "https://nanobiostructuresrg.github.io/LigandHub/"
+license: "MIT"
+keywords:
+  - molecular docking
+  - ligand preparation
+  - AutoDock Vina
+  - React
+  - Vite
+  - frontend
+  - cheminformatics
+abstract: "LigandHub is a web frontend for molecular docking preparation and output recovery workflows, providing browser-based access to ligand preparation, batch ligand preparation, backend status, prototype limits, and docking result conversion workflows through the LigandHub-API backend."
