@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import logoUrl from "../../assets/logo_p.svg";
 
 function TopbarMark() {
@@ -36,29 +37,47 @@ function TopbarMark() {
 }
 
 export function Header() {
+  const navItems = [
+    ["Home", "/"],
+    ["Molecular Datasets", "/datasets"],
+    ["Docking Tools", "/docking"],
+    ["Feature Engineering", "/features"],
+    ["ADMET", "/admet"],
+    ["About", "/about"]
+  ];
+
   return (
     <div className="topbar">
-      <div className="topbar-brand">
-        <TopbarMark />
-        <div className="topbar-text">
-          <div className="topbar-title">LigandHub</div>
-          <div className="topbar-subtitle">Docking Toolkit</div>
-        </div>
+      <div className="topbar-content">
+        <NavLink className="topbar-brand" to="/" aria-label="LigandHub home">
+          <TopbarMark />
+          <div className="topbar-text">
+            <div className="topbar-title">LigandHub</div>
+            <div className="topbar-subtitle">Scientific Apps Hub</div>
+          </div>
+        </NavLink>
+        <nav className="topbar-nav" aria-label="Primary navigation">
+          {navItems.map(([label, path]) => (
+            <NavLink className="topbar-nav-link" to={path} key={path} end={path === "/"}>
+              {label}
+            </NavLink>
+          ))}
+        </nav>
       </div>
     </div>
   );
 }
 
-export function HeroHeader() {
+export function HeroHeader({ subtitle = "Molecular docking workspace for structure preparation and output recovery" }) {
   return (
-      <div className="header">
-        <div className="hero-brand">
-          <img src={logoUrl} alt="LigandHub logo" className="brand-logo brand-logo-hero" />
-          <div className="hero-title-group">
-            <h1>LigandHub</h1>
-          </div>
+    <div className="header">
+      <div className="hero-brand">
+        <img src={logoUrl} alt="LigandHub logo" className="brand-logo brand-logo-hero" />
+        <div className="hero-title-group">
+          <h1>LigandHub</h1>
         </div>
-        <p>Molecular docking workspace for structure preparation and output recovery</p>
       </div>
+      <p>{subtitle}</p>
+    </div>
   );
 }
