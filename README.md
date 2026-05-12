@@ -1,9 +1,9 @@
 # LigandHub
-**Version v0.2.3 - May, 2026. Monterrey**
+**Version v0.2.4 - May, 2026. Monterrey**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Version](https://img.shields.io/badge/version-v0.2.3-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
+[![Version](https://img.shields.io/badge/version-v0.2.4-blue.svg)](https://github.com/NanoBiostructuresRG/LigandHub)
 
 ---
 
@@ -17,7 +17,7 @@ The frontend handles input collection, basic validation, `FormData` construction
 https://NanoBiostructuresRG.github.io/LigandHub
 ```
 
-Frontend `v0.2.3` is a small maintenance patch focused on mobile responsiveness and browser/social preview metadata. It improves Home and About layouts on narrow screens, adjusts header and footer behavior for mobile viewports, and updates the page title to `LigandHub` while preserving the existing backend API contract.
+Frontend `v0.2.4` is a CSS-only maintenance refactor focused on stylesheet modularization. It reorganizes the previous monolithic `src/styles/global.css` into section-oriented stylesheet files while preserving the existing visual design, responsive behavior, routing, and backend API contract.
 
 ## How the Frontend Works
 
@@ -57,7 +57,7 @@ The frontend currently provides three workflows:
 
 ## Backend Compatibility
 
-Frontend `v0.2.3` remains compatible with the deployed LigandHub-API backend at:
+Frontend `v0.2.4` remains compatible with the deployed LigandHub-API backend at:
 
 ```bash
 https://ligandhub-api.onrender.com

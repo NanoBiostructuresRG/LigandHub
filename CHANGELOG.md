@@ -1,5 +1,20 @@
 # Changelog
 
+## [v0.2.4] - 2026-05-12
+
+### Changed
+- Modularized the frontend stylesheet structure by splitting `src/styles/global.css` into section-oriented CSS files.
+- Converted `global.css` into an import hub for base, layout, header, home, pages, docking, about, forms, footer, and responsive styles.
+
+### Notes
+- CSS-only refactor.
+- No React component changes.
+- No routing changes.
+- No API/backend changes.
+- No Vite configuration changes.
+- No FormData, fetch, download, or Docking Tools logic changes.
+- Manual visual review passed on desktop and mobile.
+
 ## v0.2.3 - May 2026
 
 - Added a small frontend maintenance patch focused on mobile responsiveness.
