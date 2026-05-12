@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.2.2 - May 2026
+
+- Refined frontend visual identity, user-facing copy, and page layout.
+- Polished page copy across Home, Datasets Tools, Features Tools, Docking Tools, ADME Tools, and About.
+- Refined the header LigandHub branding and removed the header subtitle.
+- Improved Home hero logo and wordmark sizing without changing the logo asset or typeface.
+- Added `assets/TLR9.png` as a decorative Home visual asset.
+- Refined title cards, page heroes, icon usage, and decorative visual treatments.
+- Added icon-based visual refinements using `lucide-react` and `react-icons`.
+- Updated the footer to a full-width sticky-footer layout with a LigandHub-aligned gradient, softened footer text, and improved hyperlink visibility.
+- Preserved the backend API contract: `API_BASE_URL`, `API_ENDPOINTS`, backend routes, HTTP methods, `FormData` field names, file handling, and download logic are unchanged.
+- Preserved HashRouter routing and the Vite base path `/LigandHub/`.
+- No backend changes.
+- No API behavior changes.
+
 ## v0.2.1 - May 2026
 
 - Added page-based navigation using React Router HashRouter.
