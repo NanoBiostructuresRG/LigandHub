@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.2.3 - May 2026
+
+- Added a small frontend maintenance patch focused on mobile responsiveness.
+- Improved Home mobile layout, including hero sizing, tagline wrapping, TLR9 visual scaling, decorative card spacing, and GitHub/Portfolio card stacking.
+- Improved About mobile layout by collapsing desktop-oriented card grids and reducing spacing on narrow screens.
+- Adjusted fixed-header spacing and navigation behavior for small screens.
+- Improved footer spacing and icon sizing on narrow screens while preserving the full-width footer layout.
+- Updated the browser/social preview title to `LigandHub`.
+- No backend/API behavior changes.
+- No route changes.
+- No dependency changes.
+- No Vite config changes.
+
 ## v0.2.2 - May 2026
 
 - Refined frontend visual identity, user-facing copy, and page layout.
