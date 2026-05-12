@@ -1,0 +1,363 @@
+        @media (max-width: 768px) {
+            body {
+                padding: 142px 0 0;
+            }
+
+            #root {
+                min-height: calc(100vh - 142px);
+            }
+
+            .container {
+                width: calc(100% - 40px);
+                max-width: 720px;
+                padding-bottom: 72px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                padding: 10px 18px;
+            }
+
+            .topbar-content {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .topbar-nav {
+                justify-content: flex-start;
+                gap: 4px;
+            }
+
+            .topbar-nav-link {
+                padding: 6px 8px;
+                font-size: 11.5px;
+            }
+
+            .home-hero {
+                margin-top: 38px;
+            }
+
+            .hero-brand {
+                gap: 14px;
+            }
+
+            .home-hero .brand-logo-hero {
+                width: 92px;
+                height: 92px;
+                transform: scale(1.08);
+            }
+
+            .home-hero h1 {
+                font-size: 2.55rem;
+            }
+
+            .home-hero .home-hero-subtitle {
+                max-width: 100%;
+                margin-top: 26px;
+                font-size: 1rem;
+            }
+
+            .home-tagline-lead {
+                font-size: 1.35em;
+            }
+
+            .home-card {
+                margin-top: 46px;
+            }
+
+            .docking-hero-spacer {
+                height: 220px;
+            }
+
+            .docking-card-title-box {
+                margin-bottom: 36px;
+                padding: 12px 14px;
+            }
+
+            .card h2.home-card-title {
+                font-size: 1.35rem;
+            }
+
+            .docking-card-title-box p {
+                font-size: 12.5px;
+            }
+
+            .home-tlr9-image-wrap {
+                flex-direction: column;
+                gap: 18px;
+                margin-top: 30px;
+                text-align: center;
+            }
+
+            .home-target-copy {
+                font-size: 1.05rem;
+                text-align: center;
+            }
+
+            .home-tlr9-image {
+                max-width: min(100%, 320px);
+            }
+
+            .home-sphere-block {
+                min-height: 180px;
+                margin-top: 48px;
+            }
+
+            .home-sphere-copy {
+                max-width: 100%;
+                padding: 22px;
+            }
+
+            .home-sphere-headline {
+                white-space: normal;
+                font-size: 1.38rem;
+            }
+
+            .home-sphere-subline {
+                margin-left: 0;
+                font-size: 1.02rem;
+            }
+
+            .home-code-card-wrap {
+                justify-content: center;
+                gap: 18px;
+                margin-top: 48px;
+                padding-right: 0;
+            }
+
+            .about-card {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                margin-top: 58px;
+            }
+
+            .about-citations-panel {
+                grid-column: auto;
+            }
+
+            .app-area-card {
+                padding: 14px 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 158px 0 0;
+            }
+
+            #root {
+                min-height: calc(100vh - 158px);
+            }
+
+            .container {
+                width: calc(100% - 32px);
+                padding-bottom: 64px;
+            }
+
+            .hero-brand {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .hero-title-group {
+                text-align: center;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .home-hero h1 {
+                font-size: 2.05rem;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                padding: 10px 16px;
+            }
+
+            .topbar-content {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .topbar-nav {
+                justify-content: flex-start;
+            }
+
+            .topbar-nav-link {
+                padding: 6px 8px;
+            }
+
+            .tool-switcher {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-switcher,
+            .options-grid,
+            .app-area-grid,
+            .limits-list,
+            .error-limits-list {
+                grid-template-columns: 1fr;
+            }
+
+            .option-section-wide .minimization-settings {
+                grid-template-columns: 1fr;
+            }
+
+            .segmented-options {
+                grid-template-columns: 1fr;
+            }
+
+            .segmented-option label {
+                min-height: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 176px 0 0;
+            }
+
+            #root {
+                min-height: calc(100vh - 176px);
+            }
+
+            .container {
+                width: calc(100% - 24px);
+                padding-bottom: 56px;
+            }
+
+            .topbar {
+                padding: 8px 12px;
+            }
+
+            .topbar-brand {
+                gap: 10px;
+            }
+
+            .brand-mark-topbar svg {
+                width: 34px;
+                height: 34px;
+            }
+
+            .topbar-title {
+                font-size: 16px;
+            }
+
+            .topbar-nav-link {
+                padding: 5px 7px;
+                font-size: 10.5px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .home-hero {
+                margin-top: 26px;
+            }
+
+            .home-hero .brand-logo-hero {
+                width: 78px;
+                height: 78px;
+                transform: scale(1);
+            }
+
+            .home-hero h1 {
+                font-size: 2rem;
+            }
+
+            .home-hero .home-hero-subtitle {
+                margin-top: 22px;
+                font-size: 0.95rem;
+            }
+
+            .home-tagline-lead {
+                font-size: 1.24em;
+            }
+
+            .docking-hero-spacer {
+                height: 190px;
+            }
+
+            .docking-hero-spacer h1 {
+                flex-wrap: wrap;
+                font-size: 2rem;
+            }
+
+            .docking-card-title-box {
+                margin-bottom: 28px;
+                padding: 11px 12px;
+            }
+
+            .card h2.home-card-title {
+                font-size: 1.18rem;
+            }
+
+            .app-area-title {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .app-area-icon {
+                width: 42px;
+                height: 42px;
+            }
+
+            .home-tlr9-image {
+                max-width: min(100%, 260px);
+            }
+
+            .home-sphere-copy {
+                padding: 18px;
+            }
+
+            .home-sphere-headline {
+                font-size: 1.12rem;
+            }
+
+            .home-sphere-subline {
+                font-size: 0.92rem;
+            }
+
+            .home-code-card-wrap {
+                align-items: center;
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 42px;
+            }
+
+            .app-area-card.home-code-card {
+                width: min(100%, 180px);
+            }
+
+            .about-card {
+                gap: 14px;
+                margin-top: 40px;
+            }
+
+            .about-card p {
+                font-size: 12.5px;
+            }
+
+            .about-citation-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .footer {
+                padding: 18px 14px;
+            }
+
+            .footer-starship {
+                width: 24px;
+                height: 24px;
+            }
+        }

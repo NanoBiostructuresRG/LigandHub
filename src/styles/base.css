@@ -1,0 +1,25 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ligandhub-page-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            background: var(--ligandhub-page-gradient);
+            min-height: 100vh;
+            padding: 90px 0 0;
+            display: flex;
+        }
+
+        #root {
+            display: flex;
+            min-height: calc(100vh - 90px);
+            width: 100%;
+            flex-direction: column;
+        }
+
