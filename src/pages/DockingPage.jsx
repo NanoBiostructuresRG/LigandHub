@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { Blocks } from "lucide-react";
 import { BackendStatus } from "../components/BackendStatus";
 import { BatchLigandPreparation } from "../components/BatchLigandPreparation";
 import { DockingResultRecovery } from "../components/DockingResultRecovery";
-import { HeroHeader } from "../components/Header";
 import { LigandPreparation } from "../components/LigandPreparation";
 import { ToolTabs } from "../components/ToolTabs";
 import { useBackendHealth } from "../hooks/useBackendHealth";
@@ -16,16 +16,28 @@ export function DockingPage() {
 
   return (
     <>
-      <HeroHeader />
+      <div className="docking-hero-spacer">
+        <h1><Blocks className="docking-title-icon" aria-hidden="true" />Docking Tools</h1>
+        <p>
+          Input <span className="docking-tagline-accent">preparation</span> and output{" "}
+          <span className="docking-tagline-accent">transformation</span> for docking workflows.
+        </p>
+      </div>
       <div className="card">
-        <h2>Docking Tools</h2>
+        <div className="docking-card-title-box">
+          <span className="docking-title-starfield" aria-hidden="true" />
+          <span className="docking-title-starfield docking-title-starfield-dense" aria-hidden="true" />
+          <span className="docking-title-starfield docking-title-starfield-dust" aria-hidden="true" />
+          <h2 className="home-card-title docking-card-title">Molecular format converter</h2>
+          <p>A toolkit for AutoDock Vina</p>
+        </div>
 
         <ToolTabs activeTool={activeTool} onSelect={setActiveTool} />
         <BackendStatus status={backendStatus} />
 
         {activeTool === "prepare" ? (
           <section className="tool-panel active" id="preparePanel" role="tabpanel" aria-labelledby="toolTabPrepare">
-            <p className="tool-panel-intro">Choose between single-ligand preparation and batch library preparation. Individual mode keeps the current one-molecule workflow, while batch mode packages a full SMILES library into a ZIP of <code>PDBQT</code> files.</p>
+            <p className="tool-panel-intro">Choose single-ligand preparation for one structure or SMILES string, or batch preparation to process a SMILES library and download a ZIP of <code>PDBQT</code> files.</p>
 
             <div className="workflow-switcher" role="tablist" aria-label="Ligand preparation workflows">
               <button
@@ -38,7 +50,7 @@ export function DockingPage() {
                 onClick={() => setActiveWorkflow("single")}
               >
                 <span className="workflow-title">Ligand preparation</span>
-                <span className="workflow-copy">Prepare a single ligand from a structure file or a SMILES string.</span>
+                <span className="workflow-copy">Validate SMILES input when needed and prepare one ligand for docking.</span>
               </button>
               <button
                 className={`workflow-tab${activeWorkflow === "batch" ? " active" : ""}`}
@@ -50,7 +62,7 @@ export function DockingPage() {
                 onClick={() => setActiveWorkflow("batch")}
               >
                 <span className="workflow-title">Batch ligand preparation</span>
-                <span className="workflow-copy">Process a SMILES library and download a ZIP with prepared ligands.</span>
+                <span className="workflow-copy">Process a SMILES library and download prepared ligands as a ZIP archive.</span>
               </button>
             </div>
 

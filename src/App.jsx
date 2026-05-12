@@ -16,13 +16,13 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/datasets" element={<DatasetsPage />} />
-          <Route path="/docking" element={<DockingPage />} />
           <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/docking" element={<DockingPage />} />
           <Route path="/admet" element={<AdmetPage />} />
           <Route path="/about" element={<AboutPage />} />
         </Routes>
-        <Footer />
       </main>
+      <Footer />
     </HashRouter>
   );
 }

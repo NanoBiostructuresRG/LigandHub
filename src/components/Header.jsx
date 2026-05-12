@@ -39,10 +39,10 @@ function TopbarMark() {
 export function Header() {
   const navItems = [
     ["Home", "/"],
-    ["Molecular Datasets", "/datasets"],
+    ["Datasets Tools", "/datasets"],
+    ["Features Tools", "/features"],
     ["Docking Tools", "/docking"],
-    ["Feature Engineering", "/features"],
-    ["ADMET", "/admet"],
+    ["ADME Tools", "/admet"],
     ["About", "/about"]
   ];
 
@@ -53,7 +53,6 @@ export function Header() {
           <TopbarMark />
           <div className="topbar-text">
             <div className="topbar-title">LigandHub</div>
-            <div className="topbar-subtitle">Scientific Apps Hub</div>
           </div>
         </NavLink>
         <nav className="topbar-nav" aria-label="Primary navigation">
@@ -68,16 +67,16 @@ export function Header() {
   );
 }
 
-export function HeroHeader({ subtitle = "Molecular docking workspace for structure preparation and output recovery" }) {
+export function HeroHeader({ className = "", subtitle = "Molecular docking workspace for ligand preparation and result recovery" }) {
   return (
-    <div className="header">
+    <div className={`header${className ? ` ${className}` : ""}`}>
       <div className="hero-brand">
         <img src={logoUrl} alt="LigandHub logo" className="brand-logo brand-logo-hero" />
         <div className="hero-title-group">
           <h1>LigandHub</h1>
         </div>
       </div>
-      <p>{subtitle}</p>
+      <p className={className ? `${className}-subtitle` : ""}>{subtitle}</p>
     </div>
   );
 }
